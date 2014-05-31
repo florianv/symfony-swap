@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="florianv_swap.swap.class">Swap\Swap</parameter>
+        <parameter key="florianv_swap.client.class">Guzzle\Http\Client</parameter>
+        <parameter key="florianv_swap.provider.yahoo_finance.class">Swap\Provider\YahooFinance</parameter>
+        <parameter key="florianv_swap.provider.google_finance.class">Swap\Provider\GoogleFinance</parameter>
+        <parameter key="florianv_swap.provider.european_central_bank.class">Swap\Provider\EuropeanCentralBank</parameter>
+        <parameter key="florianv_swap.provider.open_exchange_rates.class">Swap\Provider\OpenExchangeRates</parameter>
+        <parameter key="florianv_swap.provider.xignite.class">Swap\Provider\Xignite</parameter>
+    </parameters>
+
+    <services>
+        <service id="florianv_swap.swap" class="%florianv_swap.swap.class%"/>
+        <service id="florianv_swap.client" class="%florianv_swap.client.class%" public="false"/>
+    </services>
+
+</container>

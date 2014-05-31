@@ -1,0 +1,30 @@
+{
+    "name": "florianv/swap-bundle",
+    "type": "symfony-bundle",
+    "description": "Integrates the Swap library with Symfony2",
+    "keywords": ["swap"],
+    "homepage": "https://github.com/florianv/FlorianvSwapBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Florian Voutzinos",
+            "email": "florian@voutzinos.com",
+            "homepage": "http://voutzinos.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.2",
+        "florianv/swap": "~1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Florianv\\SwapBundle": ""
+        }
+    },
+    "target-dir": "Florianv/SwapBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
