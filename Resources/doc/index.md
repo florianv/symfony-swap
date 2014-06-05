@@ -94,6 +94,15 @@ florianv_swap:
             token: secret
 ```
 
+### WebserviceX
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    providers:
+        webservicex: ~
+```
+
 You can register multiple providers, they will be called in chain. In this example the Yahoo Finance is
 the first one and Google Finance is the second one:
 

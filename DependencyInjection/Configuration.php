@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('token')->isRequired()->cannotBeEmpty()->end()
                             ->end()
                         ->end()
-                        ->end()
+                        ->scalarNode('webservicex')->end()
                     ->end()
                 ->end()
             ->end()

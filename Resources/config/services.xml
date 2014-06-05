@@ -12,6 +12,7 @@
         <parameter key="florianv_swap.provider.european_central_bank.class">Swap\Provider\EuropeanCentralBank</parameter>
         <parameter key="florianv_swap.provider.open_exchange_rates.class">Swap\Provider\OpenExchangeRates</parameter>
         <parameter key="florianv_swap.provider.xignite.class">Swap\Provider\Xignite</parameter>
+        <parameter key="florianv_swap.provider.webservicex.class">Swap\Provider\WebserviceX</parameter>
     </parameters>
 
     <services>

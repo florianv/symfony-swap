@@ -41,6 +41,7 @@ class FlorianvSwapExtension extends Extension
                     case 'yahoo_finance':
                     case 'google_finance':
                     case 'european_central_bank':
+                    case 'webservicex':
                         $this->addProvider($container, $providerName, array(
                             new Reference('florianv_swap.client')
                         ));
