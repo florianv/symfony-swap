@@ -73,7 +73,7 @@ class FlorianvSwapExtension extends Extension
      * @param string           $name
      * @param array            $arguments
      */
-    private function addProvider(ContainerBuilder $container, $name, $arguments = array())
+    private function addProvider(ContainerBuilder $container, $name, array $arguments = array())
     {
         $definition = new Definition('%florianv_swap.provider.'.$name.'.class%', $arguments);
         $definition->setPublic(false);
