@@ -1,9 +1,4 @@
-# FlorianvSwapBundle
-
-[![Build Status](https://travis-ci.org/florianv/FlorianvSwapBundle.svg?branch=master)](https://travis-ci.org/florianv/FlorianvSwapBundle)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/aae83a1e-c3e5-48c1-aedb-1f1c9a5decfe/mini.png)](https://insight.sensiolabs.com/projects/aae83a1e-c3e5-48c1-aedb-1f1c9a5decfe)
-[![Total Downloads](http://img.shields.io/packagist/dt/florianv/swap-bundle.svg)](https://packagist.org/packages/florianv/swap-bundle)
-[![License](http://img.shields.io/packagist/l/florianv/swap-bundle.svg)](https://packagist.org/packages/florianv/swap-bundle)
+# FlorianvSwapBundle [![Build status][travis-image]][travis-url] [![Version][version-image]][version-url] [![License][license-image]][license-url]
 
 This Bundle integrates the [Swap](https://github.com/florianv/swap) library with Symfony2.
 
@@ -20,3 +15,12 @@ This bundle is under the MIT license. See the complete license in the bundle:
 ```
 Resources/meta/LICENSE
 ```
+
+[travis-url]: https://travis-ci.org/florianv/FlorianvSwapBundle
+[travis-image]: http://img.shields.io/travis/florianv/FlorianvSwapBundle.svg?style=flat-square
+
+[license-url]: https://packagist.org/packages/florianv/swap-bundle
+[license-image]: http://img.shields.io/packagist/l/florianv/swap-bundle.svg?style=flat-square
+
+[version-url]: https://packagist.org/packages/florianv/swap-bundle
+[version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat-square
