@@ -23,6 +23,13 @@ class ProviderPassTest extends \PHPUnit_Framework_TestCase
 
         $containerBuilder
             ->expects($this->once())
+            ->method('hasDefinition')
+            ->with('florianv_swap.swap')
+            ->will($this->returnValue(true))
+        ;
+
+        $containerBuilder
+            ->expects($this->once())
             ->method('getDefinition')
             ->with('florianv_swap.swap')
             ->willReturn($swapDefinition)

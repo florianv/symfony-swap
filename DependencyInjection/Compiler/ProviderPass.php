@@ -27,6 +27,10 @@ class ProviderPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition('florianv_swap.swap')) {
+            return;
+        }
+
         $definition = $container->getDefinition('florianv_swap.swap');
 
         foreach ($container->findTaggedServiceIds('florianv_swap.provider') as $id => $attributes) {
