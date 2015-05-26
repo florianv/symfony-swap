@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Bridge\Doctrine\DependencyInjection\AbstractDoctrineExtension;
 
 /**
  * The container extension.
@@ -35,35 +36,59 @@ class FlorianvSwapExtension extends Extension
 
         $config = $this->processConfiguration(new Configuration(), $config);
 
-        if (isset($config['providers'])) {
-            foreach ($config['providers'] as $providerName => $providerConfig) {
-                switch ($providerName) {
-                    case 'yahoo_finance':
-                    case 'google_finance':
-                    case 'european_central_bank':
-                    case 'webservicex':
-                        $this->addProvider($container, $providerName, array(
-                            new Reference('florianv_swap.client')
-                        ));
-                        break;
+        $container->setAlias('florianv_swap.http_adapter', $config['http_adapter']);
 
-                    case 'open_exchange_rates':
-                        $this->addProvider($container, $providerName, array(
-                            new Reference('florianv_swap.client'),
-                            $providerConfig['app_id'],
-                            $providerConfig['enterprise']
-                        ));
-                        break;
+        $this->loadProviders($config['providers'], $container);
 
-                    case 'xignite':
-                        $this->addProvider($container, $providerName, array(
-                            new Reference('florianv_swap.client'),
-                            $providerConfig['token'],
-                        ));
-                        break;
-                }
+        if (isset($config['cache'])) {
+            $this->loadCache($config['cache'], $container);
+        }
+    }
+
+    private function loadProviders(array $config, ContainerBuilder $container)
+    {
+        foreach ($config as $providerName => $providerConfig) {
+            switch ($providerName) {
+                case 'yahoo_finance':
+                case 'google_finance':
+                case 'european_central_bank':
+                case 'national_bank_of_romania':
+                case 'webservicex':
+                    $this->addProvider($container, $providerName, array(
+                        new Reference('florianv_swap.http_adapter'),
+                    ), $providerConfig['priority']);
+                    break;
+
+                case 'open_exchange_rates':
+                    $this->addProvider($container, $providerName, array(
+                        new Reference('florianv_swap.http_adapter'),
+                        $providerConfig['app_id'],
+                        $providerConfig['enterprise']
+                    ), $providerConfig['priority']);
+                    break;
+
+                case 'xignite':
+                    $this->addProvider($container, $providerName, array(
+                        new Reference('florianv_swap.http_adapter'),
+                        $providerConfig['token'],
+                    ), $providerConfig['priority']);
+                    break;
             }
         }
+    }
+
+    private function loadCache(array $config, ContainerBuilder $container)
+    {
+        $cacheProvider = new Definition('%florianv_swap.cache.doctrine.'.$config['doctrine']['type'].'.class%');
+        $cacheProvider->setPublic(false);
+
+        $cacheDefinition = new Definition('%florianv_swap.cache.doctrine.class%', array(
+            $cacheProvider,
+            $config['ttl']
+        ));
+        $cacheDefinition->setPublic(false);
+
+        $container->getDefinition('florianv_swap.swap')->replaceArgument(1, $cacheDefinition);
     }
 
     /**
@@ -73,11 +98,11 @@ class FlorianvSwapExtension extends Extension
      * @param string           $name
      * @param array            $arguments
      */
-    private function addProvider(ContainerBuilder $container, $name, array $arguments = array())
+    private function addProvider(ContainerBuilder $container, $name, array $arguments = array(), $priority = null)
     {
         $definition = new Definition('%florianv_swap.provider.'.$name.'.class%', $arguments);
         $definition->setPublic(false);
-        $definition->addTag('florianv_swap.provider');
+        $definition->addTag('florianv_swap.provider', array('priority' => $priority));
 
         $container->setDefinition(sprintf('florianv_swap.provider.%s', $name), $definition);
     }

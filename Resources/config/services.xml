@@ -6,18 +6,32 @@
 
     <parameters>
         <parameter key="florianv_swap.swap.class">Swap\Swap</parameter>
-        <parameter key="florianv_swap.client.class">Guzzle\Http\Client</parameter>
-        <parameter key="florianv_swap.provider.yahoo_finance.class">Swap\Provider\YahooFinance</parameter>
-        <parameter key="florianv_swap.provider.google_finance.class">Swap\Provider\GoogleFinance</parameter>
-        <parameter key="florianv_swap.provider.european_central_bank.class">Swap\Provider\EuropeanCentralBank</parameter>
-        <parameter key="florianv_swap.provider.open_exchange_rates.class">Swap\Provider\OpenExchangeRates</parameter>
-        <parameter key="florianv_swap.provider.xignite.class">Swap\Provider\Xignite</parameter>
-        <parameter key="florianv_swap.provider.webservicex.class">Swap\Provider\WebserviceX</parameter>
+        <parameter key="florianv_swap.http_adapter.file_get_contents.class">Ivory\HttpAdapter\FileGetContentsHttpAdapter</parameter>
+        <parameter key="florianv_swap.provider.chain.class">Swap\Provider\ChainProvider</parameter>
+        <parameter key="florianv_swap.provider.yahoo_finance.class">Swap\Provider\YahooFinanceProvider</parameter>
+        <parameter key="florianv_swap.provider.google_finance.class">Swap\Provider\GoogleFinanceProvider</parameter>
+        <parameter key="florianv_swap.provider.european_central_bank.class">Swap\Provider\EuropeanCentralBankProvider</parameter>
+        <parameter key="florianv_swap.provider.national_bank_of_romania.class">Swap\Provider\NationalBankOfRomaniaProvider</parameter>
+        <parameter key="florianv_swap.provider.open_exchange_rates.class">Swap\Provider\OpenExchangeRatesProvider</parameter>
+        <parameter key="florianv_swap.provider.xignite.class">Swap\Provider\XigniteProvider</parameter>
+        <parameter key="florianv_swap.provider.webservicex.class">Swap\Provider\WebserviceXProvider</parameter>
+
+        <!-- cache -->
+        <parameter key="florianv_swap.cache.doctrine.class">Swap\Cache\DoctrineCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.xcache.class">Doctrine\Common\Cache\XcacheCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.wincache.class">Doctrine\Common\Cache\WinCacheCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.array.zenddata">Doctrine\Common\Cache\ZendDataCache</parameter>
     </parameters>
 
     <services>
-        <service id="florianv_swap.swap" class="%florianv_swap.swap.class%"/>
-        <service id="florianv_swap.client" class="%florianv_swap.client.class%" public="false"/>
+        <service id="florianv_swap.swap" class="%florianv_swap.swap.class%">
+            <argument /> <!-- required provider(s) -->
+            <argument>null</argument> <!-- cache -->
+        </service>
+
+        <service id="florianv_swap.http_adapter.file_get_contents" class="%florianv_swap.http_adapter.file_get_contents.class%" public="false"/>
     </services>
 
 </container>
