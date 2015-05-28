@@ -139,11 +139,12 @@ florianv_swap:
 ## Cache
 
 Some doctrine cache providers are implemented:
-    - apc
-    - array
-    - xcache
-    - wincache
-    - zenddata
+
+- apc
+- array
+- xcache
+- wincache
+- zenddata
 
 ```yaml
 # app/config/config.yml
@@ -176,9 +177,10 @@ florianv_swap:
 ```
 
 In this case, the order of providers will be:
-    - yahoo_finance
-    - acme_demo.provider.custom
-    - google_finance
+
+- yahoo_finance
+- acme_demo.provider.custom
+- google_finance
 
 # Usage
 
