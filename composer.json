@@ -14,7 +14,7 @@
     ],
     "require": {
         "symfony/framework-bundle": "~2.2",
-        "florianv/swap": "~1.0"
+        "florianv/swap": "~2.0"
     },
     "require-dev": {
         "symfony/expression-language": "~2.4"
@@ -27,7 +27,7 @@
     "target-dir": "Florianv/SwapBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }

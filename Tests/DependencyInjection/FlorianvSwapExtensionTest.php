@@ -13,6 +13,7 @@ namespace Florianv\SwapBundle\Tests\DependencyInjection;
 
 use Florianv\SwapBundle\DependencyInjection\FlorianvSwapExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
@@ -33,11 +34,13 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension = new FlorianvSwapExtension();
     }
 
-    public function testSwapService()
+    /**
+     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     */
+    public function testNoProvider()
     {
-        $this->extension->load(array(), $this->container);
-
-        $this->assertTrue($this->container->hasDefinition('florianv_swap.swap'));
+        $config = $this->createProvidersConfig(array());
+        $this->extension->load($config, $this->container);
     }
 
     public function testYahooFinanceProvider()
@@ -49,7 +52,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
     }
 
     public function testGoogleFinanceProvider()
@@ -61,7 +64,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
     }
 
     public function testEuropeanCentralBankProvider()
@@ -73,7 +76,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
     }
 
     /**
@@ -94,7 +97,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client'), 'secret', false), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret', false), $definition->getArguments());
     }
 
     public function testOpenExchangeRatesProvider()
@@ -108,7 +111,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client'), 'secret', true), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret', true), $definition->getArguments());
     }
 
     public function testWebserviceXProvider()
@@ -120,7 +123,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
     }
 
     /**
@@ -141,7 +144,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($definition->isPublic());
         $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client'), 'secret'), $definition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret'), $definition->getArguments());
     }
 
     public function testMultipleProviders()
@@ -159,15 +162,54 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($yahooDefinition->isPublic());
         $this->assertTrue($yahooDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $yahooDefinition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $yahooDefinition->getArguments());
 
         $this->assertFalse($googleDefinition->isPublic());
         $this->assertTrue($googleDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client')), $googleDefinition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $googleDefinition->getArguments());
 
         $this->assertFalse($xigniteDefinition->isPublic());
         $this->assertTrue($xigniteDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.client'), 'secret'), $xigniteDefinition->getArguments());
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret'), $xigniteDefinition->getArguments());
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     */
+    public function testCacheMissTtl()
+    {
+        $config = array(
+            'florianv_swap' => array(
+                'cache'     => null,
+                'providers' => array('yahoo_finance' => null)
+            )
+        );
+        $this->extension->load($config, $this->container);
+    }
+
+    public function testCache()
+    {
+        $config = array(
+            'florianv_swap' => array(
+                'cache'     => array(
+                    'ttl' => 3600,
+                    'doctrine' => 'apc',
+                ),
+                'providers' => array('yahoo_finance' => null)
+            )
+        );
+        $this->extension->load($config, $this->container);
+
+        $swap      = $this->container->getDefinition('florianv_swap.swap');
+        $arguments = $swap->getArguments();
+        $cache     = $arguments[1];
+
+        $this->assertEquals($cache->getClass(), '%florianv_swap.cache.doctrine.class%');
+        $this->assertFalse($cache->isPublic());
+
+        $apcDefinition = new Definition('%florianv_swap.cache.doctrine.apc.class%');
+        $apcDefinition->setPublic(false);
+        $this->assertEquals(array($apcDefinition, 3600), $cache->getArguments());
     }
 
     private function createProvidersConfig(array $providers)
