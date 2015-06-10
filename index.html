@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>FlorianvSwapBundle by florianv</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">FlorianvSwapBundle</h1>
+      <h2 class="project-tagline">Integrates the Swap library with Symfony2</h2>
+      <a href="https://github.com/florianv/FlorianvSwapBundle" class="btn">View on GitHub</a>
+      <a href="https://github.com/florianv/FlorianvSwapBundle/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/florianv/FlorianvSwapBundle/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Add this line to your <code>composer.json</code> file:</p>
+
+<div class="highlight highlight-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>require<span class="pl-pds">"</span></span>: {
+        <span class="pl-s"><span class="pl-pds">"</span>florianv/swap-bundle<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>~2.0<span class="pl-pds">"</span></span>
+    }
+}</pre></div>
+
+<p>Update the dependency by running:</p>
+
+<div class="highlight highlight-bash"><pre>$ php composer.phar update florianv/swap-bundle</pre></div>
+
+<p>Enable the Bundle in the kernel:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-c">// app/AppKernel.php</span></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">registerBundles</span>()</span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-smi">$bundles</span> <span class="pl-k">=</span> <span class="pl-c1">array</span>(</span>
+<span class="pl-s1">        <span class="pl-c">// ...</span></span>
+<span class="pl-s1">        <span class="pl-k">new</span> <span class="pl-c1">Florianv\SwapBundle\</span><span class="pl-c1">FlorianvSwapBundle</span>(),</span>
+<span class="pl-s1">    );</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h1>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h1>
+
+<h2>
+<a id="builtin-providers" class="anchor" href="#builtin-providers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Builtin providers</h2>
+
+<h3>
+<a id="yahoo-finance" class="anchor" href="#yahoo-finance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Yahoo Finance</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">yahoo_finance:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h3>
+<a id="google-finance" class="anchor" href="#google-finance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Google Finance</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">google_finance:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h3>
+<a id="european-central-bank" class="anchor" href="#european-central-bank" aria-hidden="true"><span class="octicon octicon-link"></span></a>European Central Bank</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">european_central_bank:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h3>
+<a id="national-bank-of-romania" class="anchor" href="#national-bank-of-romania" aria-hidden="true"><span class="octicon octicon-link"></span></a>National Bank of Romania</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">national_bank_of_romania:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h3>
+<a id="open-exchange-rates" class="anchor" href="#open-exchange-rates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Open Exchange Rates</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">open_exchange_rates:</span></span>
+            <span class="pl-c"># Your app id</span>
+            <span class="pl-s"><span class="pl-ent">app_id:</span> <span class="pl-s">secret</span></span>
+
+            <span class="pl-c"># True if your AppId is an enterprise one. Defaults to false</span>
+            <span class="pl-s"><span class="pl-ent">enterprise:</span> <span class="pl-s">true</span></span></pre></div>
+
+<h3>
+<a id="xignite" class="anchor" href="#xignite" aria-hidden="true"><span class="octicon octicon-link"></span></a>Xignite</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">xignite:</span></span>
+            <span class="pl-c"># Your API token</span>
+            <span class="pl-s"><span class="pl-ent">token:</span> <span class="pl-s">secret</span></span></pre></div>
+
+<h3>
+<a id="webservicex" class="anchor" href="#webservicex" aria-hidden="true"><span class="octicon octicon-link"></span></a>WebserviceX</h3>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">webservicex:</span> <span class="pl-s">~</span></span></pre></div>
+
+<p>You can register multiple providers, they will be called in chain. In this example the Yahoo Finance is
+the first one and Google Finance is the second one:</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">yahoo_finance:</span> <span class="pl-s">~</span></span>
+        <span class="pl-s"><span class="pl-ent">google_finance:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h2>
+<a id="custom-providers" class="anchor" href="#custom-providers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom providers</h2>
+
+<p>In order to add your custom providers implementing <code>Swap\ProviderInterface</code>, you can tag them as <code>florianv_swap.provider</code>:</p>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">service</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>acme_demo.provider.custom<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>Acme\DemoBundle\Provider\Custom<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">tag</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>florianv_swap.provider<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">service</span>&gt;</pre></div>
+
+<h2>
+<a id="custom-http-adapter" class="anchor" href="#custom-http-adapter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom HTTP adapter</h2>
+
+<p>You can define your own HTTP adapter. It has to inherit from <code>Ivory\HttpAdapter\HttpAdapterInterface</code>.</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">http_adapter:</span> <span class="pl-s">my_service</span></span></pre></div>
+
+<h2>
+<a id="cache" class="anchor" href="#cache" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cache</h2>
+
+<p>Some doctrine cache providers are implemented:</p>
+
+<ul>
+<li>apc</li>
+<li>array</li>
+<li>xcache</li>
+<li>wincache</li>
+<li>zenddata</li>
+</ul>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">cache:</span></span>
+        <span class="pl-s"><span class="pl-ent">doctrine:</span> <span class="pl-s">apc</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">yahoo_finance:</span> <span class="pl-s">~</span></span>
+        <span class="pl-s"><span class="pl-ent">google_finance:</span> <span class="pl-s">~</span></span></pre></div>
+
+<h2>
+<a id="priority" class="anchor" href="#priority" aria-hidden="true"><span class="octicon octicon-link"></span></a>Priority</h2>
+
+<p>A priority attribute is available in tags and config.yml to sort providers.</p>
+
+<div class="highlight highlight-yaml"><pre><span class="pl-c"># app/config/config.yml</span>
+<span class="pl-s"><span class="pl-ent">florianv_swap:</span></span>
+    <span class="pl-s"><span class="pl-ent">providers:</span></span>
+        <span class="pl-s"><span class="pl-ent">yahoo_finance:</span></span>
+            <span class="pl-c1"><span class="pl-ent">priority:</span> 10</span>
+        <span class="pl-s"><span class="pl-ent">google_finance:</span></span>
+            <span class="pl-c1"><span class="pl-ent">priority:</span> 0</span></pre></div>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">service</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>acme_demo.provider.custom<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s"><span class="pl-pds">"</span>Acme\DemoBundle\Provider\Custom<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">tag</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>florianv_swap.provider<span class="pl-pds">"</span></span> <span class="pl-e">priority</span>=<span class="pl-s"><span class="pl-pds">"</span>5<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">service</span>&gt;</pre></div>
+
+<p>In this case, the order of providers will be:</p>
+
+<ul>
+<li>yahoo_finance</li>
+<li>acme_demo.provider.custom</li>
+<li>google_finance</li>
+</ul>
+
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+
+<p>The Swap service is available in the container:</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s1"><span class="pl-c">/** @var \Swap\SwapInterface $swap */</span></span>
+<span class="pl-s1"><span class="pl-smi">$swap</span> <span class="pl-k">=</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>get(<span class="pl-s"><span class="pl-pds">'</span>florianv_swap.swap<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>For more information about how to use it, please consult the <a href="https://github.com/florianv/swap">Swap documentation</a>.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/florianv/FlorianvSwapBundle">FlorianvSwapBundle</a> is maintained by <a href="https://github.com/florianv">florianv</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
