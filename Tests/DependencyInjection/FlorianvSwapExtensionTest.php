@@ -35,7 +35,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */
     public function testNoProvider()
     {
@@ -187,7 +187,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->load($config, $this->container);
     }
 
-    public function testCache()
+    public function testDoctrineCacheProvider()
     {
         $config = array(
             'florianv_swap' => array(
@@ -210,6 +210,31 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $apcDefinition = new Definition('%florianv_swap.cache.doctrine.apc.class%');
         $apcDefinition->setPublic(false);
         $this->assertEquals(array($apcDefinition, 3600), $cache->getArguments());
+    }
+
+    public function testDoctrineCacheService()
+    {
+        $config = array(
+            'florianv_swap' => array(
+                'cache'     => array(
+                    'ttl' => 60,
+                    'doctrine' => 'my_service',
+                ),
+                'providers' => array('yahoo_finance' => null)
+            )
+        );
+        $this->extension->load($config, $this->container);
+
+        $swap = $this->container->getDefinition('florianv_swap.swap');
+        $arguments = $swap->getArguments();
+        $cache = $arguments[1];
+        $cacheArguments = $cache->getArguments();
+
+        $this->assertEquals($cache->getClass(), '%florianv_swap.cache.doctrine.class%');
+        $this->assertFalse($cache->isPublic());
+
+        $this->assertEquals(new Reference('my_service'), $cacheArguments[0]);
+        $this->assertEquals(60, $cacheArguments[1]);
     }
 
     private function createProvidersConfig(array $providers)
