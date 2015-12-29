@@ -27,7 +27,7 @@
     "target-dir": "Florianv/SwapBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.1-dev"
         }
     }
 }
