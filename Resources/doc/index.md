@@ -126,39 +126,9 @@ In order to add your custom providers implementing `Swap\ProviderInterface`, you
 </service>
 ```
 
-## Custom HTTP adapter
+## Providers priority
 
-You can define your own HTTP adapter. It has to inherit from `Ivory\HttpAdapter\HttpAdapterInterface`.
-
-```yaml
-# app/config/config.yml
-florianv_swap:
-    http_adapter: my_service
-```
-
-## Cache
-
-Some doctrine cache providers are implemented:
-
-- apc
-- array
-- xcache
-- wincache
-- zenddata
-
-```yaml
-# app/config/config.yml
-florianv_swap:
-    cache:
-        doctrine: apc
-    providers:
-        yahoo_finance: ~
-        google_finance: ~
-```
-
-## Priority
-
-A priority attribute is available in tags and config.yml to sort providers.
+A priority attribute is available in tags and `config.yml` to sort providers.
 
 ```yaml
 # app/config/config.yml
@@ -181,6 +151,51 @@ In this case, the order of providers will be:
 - yahoo_finance
 - acme_demo.provider.custom
 - google_finance
+
+## Custom HTTP adapter
+
+You can define your own HTTP adapter. It has to inherit from `Ivory\HttpAdapter\HttpAdapterInterface`.
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    http_adapter: my_service
+```
+
+## Cache
+
+Currently only [Doctrine Cache](https://github.com/doctrine/cache) is supported as cache implementation.
+
+### Lifetime
+
+You must specify a lifetime for your cache entries:
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    cache:
+        ttl: 3600 # seconds
+```
+
+### Provider
+
+You can use a doctrine service id:
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    cache:
+        doctrine: my_apc_service
+```
+
+or one of the implemented providers (`apc`, `array`, `xcache`, `wincache`, `zenddata`)
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    cache:
+        doctrine: apc
+```
 
 # Usage
 

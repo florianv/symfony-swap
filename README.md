@@ -4,7 +4,7 @@
 [![Version][version-image]][version-url]
 [![Downloads][downloads-image]][downloads-url]
 
-> Integrates the [Swap](https://github.com/florianv/swap) library with Symfony.
+> Integrates the [Swap](https://github.com/florianv/swap) library with Symfony
 
 ## Documentation
 
