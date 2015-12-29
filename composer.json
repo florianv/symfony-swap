@@ -1,8 +1,8 @@
 {
     "name": "florianv/swap-bundle",
     "type": "symfony-bundle",
-    "description": "Integrates the Swap library with Symfony2",
-    "keywords": ["money", "currency", "conversion", "rate", "exchange"],
+    "description": "Integrates the Swap library with Symfony",
+    "keywords": ["money", "currency", "conversion", "rate", "exchange", "symfony", "bundle"],
     "homepage": "https://github.com/florianv/FlorianvSwapBundle",
     "license": "MIT",
     "authors": [

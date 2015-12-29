@@ -1,6 +1,10 @@
-# FlorianvSwapBundle [![Build status][travis-image]][travis-url] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
+# FlorianvSwapBundle
 
-This Bundle integrates the [Swap](https://github.com/florianv/swap) library with Symfony2.
+[![Build status][travis-image]][travis-url]
+[![Version][version-image]][version-url]
+[![Downloads][downloads-image]][downloads-url]
+
+> Integrates the [Swap](https://github.com/florianv/swap) library with Symfony.
 
 ## Documentation
 
@@ -17,10 +21,10 @@ Resources/meta/LICENSE
 ```
 
 [travis-url]: https://travis-ci.org/florianv/FlorianvSwapBundle
-[travis-image]: http://img.shields.io/travis/florianv/FlorianvSwapBundle.svg?style=flat
+[travis-image]: http://img.shields.io/travis/florianv/FlorianvSwapBundle.svg
 
 [version-url]: https://packagist.org/packages/florianv/swap-bundle
-[version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat
+[version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg
 
-[php-version-url]: https://packagist.org/packages/florianv/swap
-[php-version-image]: http://img.shields.io/badge/php-5.4+-ff69b4.svg
+[downloads-url]: https://packagist.org/packages/florianv/swap-bundle
+[downloads-image]: https://img.shields.io/packagist/dt/florianv/swap-bundle.svg
