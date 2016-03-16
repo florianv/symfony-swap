@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->createSimpleProviderNode('google_finance'))
                         ->append($this->createSimpleProviderNode('european_central_bank'))
                         ->append($this->createSimpleProviderNode('national_bank_of_romania'))
+                        ->append($this->createSimpleProviderNode('central_bank_of_republic_turkey'))
                         ->arrayNode('open_exchange_rates')
                             ->children()
                                 ->integerNode('priority')->defaultValue(0)->end()

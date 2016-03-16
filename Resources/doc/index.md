@@ -105,6 +105,15 @@ florianv_swap:
         webservicex: ~
 ```
 
+### Central Bank of the Republic of Turkey
+
+```yaml
+# app/config/config.yml
+florianv_swap:
+    providers:
+        central_bank_of_republic_turkey: ~
+```
+
 You can register multiple providers, they will be called in chain. In this example the Yahoo Finance is
 the first one and Google Finance is the second one:
 

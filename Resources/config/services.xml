@@ -15,6 +15,7 @@
         <parameter key="florianv_swap.provider.open_exchange_rates.class">Swap\Provider\OpenExchangeRatesProvider</parameter>
         <parameter key="florianv_swap.provider.xignite.class">Swap\Provider\XigniteProvider</parameter>
         <parameter key="florianv_swap.provider.webservicex.class">Swap\Provider\WebserviceXProvider</parameter>
+        <parameter key="florianv_swap.provider.central_bank_of_republic_turkey.class">Swap\Provider\CentralBankOfRepublicTurkeyProvider</parameter>
 
         <!-- cache -->
         <parameter key="florianv_swap.cache.doctrine.class">Swap\Cache\DoctrineCache</parameter>
