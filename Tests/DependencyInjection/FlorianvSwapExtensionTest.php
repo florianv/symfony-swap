@@ -147,6 +147,18 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret'), $definition->getArguments());
     }
 
+    public function testCentralBankOfRepublicTurkeyProvider()
+    {
+        $config = $this->createProvidersConfig(array('central_bank_of_republic_turkey' => null));
+        $this->extension->load($config, $this->container);
+
+        $definition = $this->container->getDefinition('florianv_swap.provider.central_bank_of_republic_turkey');
+
+        $this->assertFalse($definition->isPublic());
+        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
+    }
+
     public function testMultipleProviders()
     {
         $config = $this->createProvidersConfig(array(

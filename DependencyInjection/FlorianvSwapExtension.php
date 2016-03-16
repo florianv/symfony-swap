@@ -54,6 +54,7 @@ class FlorianvSwapExtension extends Extension
                 case 'european_central_bank':
                 case 'national_bank_of_romania':
                 case 'webservicex':
+                case 'central_bank_of_republic_turkey':
                     $this->addProvider($container, $providerName, array(
                         new Reference('florianv_swap.http_adapter'),
                     ), $providerConfig['priority']);
