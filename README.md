@@ -20,8 +20,8 @@ This bundle is under the MIT license. See the complete license in the bundle:
 Resources/meta/LICENSE
 ```
 
-[travis-url]: https://travis-ci.org/florianv/FlorianvSwapBundle
-[travis-image]: http://img.shields.io/travis/florianv/FlorianvSwapBundle.svg
+[travis-url]: https://travis-ci.org/florianv/symfony-swap
+[travis-image]: http://img.shields.io/travis/florianv/symfony-swap.svg
 
 [version-url]: https://packagist.org/packages/florianv/swap-bundle
 [version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg
