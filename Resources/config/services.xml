@@ -21,6 +21,7 @@
         <parameter key="florianv_swap.cache.doctrine.class">Swap\Cache\DoctrineCache</parameter>
         <parameter key="florianv_swap.cache.doctrine.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
         <parameter key="florianv_swap.cache.doctrine.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+        <parameter key="florianv_swap.cache.doctrine.apcu.class">Doctrine\Common\Cache\ApcuCache</parameter>
         <parameter key="florianv_swap.cache.doctrine.xcache.class">Doctrine\Common\Cache\XcacheCache</parameter>
         <parameter key="florianv_swap.cache.doctrine.wincache.class">Doctrine\Common\Cache\WinCacheCache</parameter>
         <parameter key="florianv_swap.cache.doctrine.zenddata.class">Doctrine\Common\Cache\ZendDataCache</parameter>

@@ -205,7 +205,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
             'florianv_swap' => array(
                 'cache'     => array(
                     'ttl' => 3600,
-                    'doctrine' => 'apc',
+                    'doctrine' => 'apcu',
                 ),
                 'providers' => array('yahoo_finance' => null)
             )
@@ -219,9 +219,9 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cache->getClass(), '%florianv_swap.cache.doctrine.class%');
         $this->assertFalse($cache->isPublic());
 
-        $apcDefinition = new Definition('%florianv_swap.cache.doctrine.apc.class%');
-        $apcDefinition->setPublic(false);
-        $this->assertEquals(array($apcDefinition, 3600), $cache->getArguments());
+        $apcuDefinition = new Definition('%florianv_swap.cache.doctrine.apcu.class%');
+        $apcuDefinition->setPublic(false);
+        $this->assertEquals(array($apcuDefinition, 3600), $cache->getArguments());
     }
 
     public function testDoctrineCacheService()

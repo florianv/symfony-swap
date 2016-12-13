@@ -80,7 +80,7 @@ class FlorianvSwapExtension extends Extension
 
     private function loadCache(array $config, ContainerBuilder $container)
     {
-        if (in_array($config['doctrine']['type'], ['apc', 'array', 'xcache', 'wincache', 'zenddata'], true)) {
+        if (in_array($config['doctrine']['type'], ['apc', 'apcu', 'array', 'xcache', 'wincache', 'zenddata'], true)) {
             $cacheProvider = new Definition('%florianv_swap.cache.doctrine.'.$config['doctrine']['type'].'.class%');
             $cacheProvider->setPublic(false);
         } else {
