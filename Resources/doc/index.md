@@ -197,13 +197,13 @@ florianv_swap:
         doctrine: my_apc_service
 ```
 
-or one of the implemented providers (`apc`, `array`, `xcache`, `wincache`, `zenddata`)
+or one of the implemented providers (`apc`, `apcu`, `array`, `xcache`, `wincache`, `zenddata`)
 
 ```yaml
 # app/config/config.yml
 florianv_swap:
     cache:
-        doctrine: apc
+        doctrine: apcu
 ```
 
 # Usage
