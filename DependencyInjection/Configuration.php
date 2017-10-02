@@ -30,41 +30,127 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('florianv_swap');
 
         $rootNode
+            ->fixXmlConfig('provider')
             ->validate()
-                ->ifTrue(function($providers) {
-                    return !isset($providers['providers']) || count($providers['providers']) === 0;
+                ->ifTrue(function($config) {
+                    return !isset($config['providers']) || count($config['providers']) === 0;
                 })
                 ->thenInvalid('You must define at least one provider.')
-                ->end()
+            ->end()
             ->children()
-                ->scalarNode('http_adapter')->defaultValue('florianv_swap.http_adapter.file_get_contents')->end()
                 ->arrayNode('cache')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->integerNode('ttl')->isRequired()->end()
-                        ->append($this->getCacheDriverNode('doctrine'))
+                        ->integerNode('ttl')
+                            ->defaultValue(3600)
+                        ->end()
+                        ->scalarNode('type')
+                            ->info('A cache type or service id')
+                            ->treatFalseLike(null)
+                            ->treatTrueLike(null)
+                            ->defaultNull()
+                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('providers')
                     ->children()
-                        ->append($this->createSimpleProviderNode('yahoo_finance'))
-                        ->append($this->createSimpleProviderNode('google_finance'))
+                        ->append($this->createSimpleProviderNode('fixer'))
+                        ->append($this->createSimpleProviderNode('google'))
+                        ->append($this->createSimpleProviderNode('cryptonator'))
+                        ->append($this->createSimpleProviderNode('webservicex'))
+                        ->append($this->createSimpleProviderNode('central_bank_of_czech_republic'))
+                        ->append($this->createSimpleProviderNode('central_bank_of_republic_turkey'))
                         ->append($this->createSimpleProviderNode('european_central_bank'))
                         ->append($this->createSimpleProviderNode('national_bank_of_romania'))
-                        ->append($this->createSimpleProviderNode('central_bank_of_republic_turkey'))
+                        ->append($this->createSimpleProviderNode('russian_central_bank'))
+                        ->arrayNode('currency_data_feed')
+                            ->children()
+                                ->integerNode('priority')->defaultValue(0)->end()
+                                ->scalarNode('api_key')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('currency_layer')
+                            ->children()
+                                ->integerNode('priority')->defaultValue(0)->end()
+                                ->scalarNode('access_key')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
+                                ->booleanNode('enterprise')->defaultFalse()->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('forge')
+                            ->children()
+                                ->integerNode('priority')->defaultValue(0)->end()
+                                ->scalarNode('api_key')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('open_exchange_rates')
                             ->children()
                                 ->integerNode('priority')->defaultValue(0)->end()
-                                ->scalarNode('app_id')->isRequired()->cannotBeEmpty()->end()
+                                ->scalarNode('app_id')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
                                 ->booleanNode('enterprise')->defaultFalse()->end()
                             ->end()
                         ->end()
                         ->arrayNode('xignite')
                             ->children()
                                 ->integerNode('priority')->defaultValue(0)->end()
-                                ->scalarNode('token')->isRequired()->cannotBeEmpty()->end()
+                                ->scalarNode('token')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
                             ->end()
                         ->end()
-                        ->append($this->createSimpleProviderNode('webservicex'))
+                        ->arrayNode('array')
+                            ->children()
+                                ->integerNode('priority')->defaultValue(0)->end()
+                                ->variableNode('rates')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                    ->validate()
+                                        ->ifTrue(function($config) {
+                                            if (!is_array($config) || empty($config)) {
+                                                return true;
+                                            }
+
+                                            foreach ($config as $entry) {
+                                                if (!is_array($entry) || empty($entry)) {
+                                                    return true;
+                                                }
+
+                                                if (!$this->validateArrayProviderEntry($entry)) {
+                                                    return true;
+                                                }
+                                            }
+
+                                            return false;
+                                        })
+                                        ->thenInvalid('Invalid configuration for array provider.')
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()
@@ -77,43 +163,37 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $node = $treeBuilder->root($name);
-
         $node
             ->children()
                 ->integerNode('priority')->defaultValue(0)->end()
             ->end()
         ;
-
         return $node;
     }
 
     /**
-     * Return a cache driver node
+     * Validates an array provider config entry.
      *
-     * @param string $name
+     * @param array $entry
      *
-     * @return ArrayNodeDefinition
+     * @return bool
      */
-    private function getCacheDriverNode($name)
+    private function validateArrayProviderEntry(array $entry)
     {
-        $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root($name);
+        foreach ($entry as $key => $value) {
+            if (preg_match('~^[1|2][0-9]{3}-[0-9]{2}-[0-9]{2}$~', $key)) {
+                if (is_array($value)) {
+                    return $this->validateArrayProviderEntry($value);
+                }
+            } elseif (preg_match('~^[A-Z]+/[A-Z]+$~', $key)) {
+                if (is_float($value) && 0 < $value) {
+                    continue;
+                }
+            }
 
-        $node
-            ->addDefaultsIfNotSet()
-            ->beforeNormalization()
-                ->ifString()
-                ->then(function($v) { return array('type' => $v); })
-            ->end()
-            ->isRequired()
-            ->children()
-                ->scalarNode('type')
-                    ->info('A cache type or service id')
-                    ->defaultValue('array')
-                ->end()
-            ->end()
-        ;
+            return false;
+        }
 
-        return $node;
+        return true;
     }
 }

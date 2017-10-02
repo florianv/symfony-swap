@@ -1,0 +1,194 @@
+<?php
+
+/*
+ * This file is part of the Swap Bundle.
+ *
+ * (c) Florian Voutzinos <florian@voutzinos.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Florianv\SwapBundle\Tests\DependencyInjection;
+
+use Florianv\SwapBundle\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Config\Definition\Processor;
+
+/**
+ * Class ConfigurationTest
+ * @package Tests\DependencyInjection
+ * @author  Etienne Dauvergne <contact@ekyna.com>
+ */
+class ConfigurationTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var Configuration
+     */
+    private $configuration;
+
+    /**
+     * @var Processor
+     */
+    private $processor;
+
+    protected function setUp()
+    {
+        $this->configuration = new Configuration();
+        $this->processor = new Processor();
+    }
+
+    protected function tearDown()
+    {
+        $this->configuration = null;
+        $this->processor = null;
+    }
+
+    /**
+     * @param array $providers
+     *
+     * @dataProvider provideValidProvidersConfigs
+     */
+    public function testValidProvidersConfig(array $providers)
+    {
+        $this->processor->processConfiguration($this->configuration, [
+            'florianv_swap' => [
+                'providers' => $providers,
+            ],
+        ]);
+    }
+
+    /**
+     * @param array $providers
+     *
+     * @dataProvider provideInvalidProvidersConfigs
+     */
+    public function testInvalidProvidersConfig(array $providers)
+    {
+        $this->expectException(Exception::class);
+
+        $this->processor->processConfiguration($this->configuration, [
+            'florianv_swap' => [
+                'providers' => $providers,
+            ],
+        ]);
+    }
+
+    /**
+     * @param array $cache
+     *
+     * @dataProvider provideValidCacheConfigs
+     */
+    public function testValidCacheConfig(array $cache)
+    {
+        $this->processor->processConfiguration($this->configuration, [
+            'florianv_swap' => [
+                'providers' => ['fixer' => null],
+                'cache'     => $cache,
+            ],
+        ]);
+    }
+
+    /**
+     * @param array $cache
+     *
+     * @dataProvider provideInvalidCacheConfigs
+     */
+    public function testInvalidCacheConfig(array $cache)
+    {
+        $this->expectException(Exception::class);
+
+        $this->processor->processConfiguration($this->configuration, [
+            'florianv_swap' => [
+                'providers' => ['fixer' => null],
+                'cache'     => $cache,
+            ],
+        ]);
+    }
+
+    public function provideValidProvidersConfigs()
+    {
+        return [
+            [['central_bank_of_czech_republic' => null]],
+            [['central_bank_of_republic_turkey' => []]],
+            [['european_central_bank' => null]],
+            [['fixer' => null]],
+            [['google' => null]],
+            [['national_bank_of_romania' => null]],
+            [['webservicex' => null]],
+            [['russian_central_bank' => null]],
+            [['cryptonator' => null]],
+            [['currency_data_feed' => ['api_key' => 'any']]],
+            [['currency_layer' => ['access_key' => 'any', 'enterprise' => true]]],
+            [['forge' => ['api_key' => 'any']]],
+            [['open_exchange_rates' => ['app_id' => 'any']]],
+            [['xignite' => ['token' => 'any']]],
+            [['xignite' => ['token' => 'any'], 'currency_layer' => ['access_key' => 'any']]],
+            [[
+                'array' => [
+                    'rates' => [
+                        [
+                            'EUR/USD' => 1.1,
+                            'EUR/GBP' => 1.5,
+                        ],
+                        [
+                            '2017-01-01' => [
+                                'EUR/USD' => 1.5,
+                            ],
+                            '2017-01-03' => [
+                                'EUR/GBP' => 1.3,
+                            ],
+                        ],
+                    ],
+                ],
+            ]],
+        ];
+    }
+
+    public function provideInvalidProvidersConfigs()
+    {
+        return [
+            [[]],
+            [['noop' => null]],
+            [['central_bank_of_czech_republic' => ['any' => 'any']]],
+            [['central_bank_of_republic_turkey' => ['any' => 'any']]],
+            [['european_central_bank' => ['any' => 'any']]],
+            [['fixer' => ['any' => 'any']]],
+            [['google' => ['any']]],
+            [['national_bank_of_romania' => ['any' => 'any']]],
+            [['webservicex' => ['any' => 'any']]],
+            [['russian_central_bank' => ['any' => 'any']]],
+            [['cryptonator' => ['any' => 'any']]],
+            [['currency_data_feed' => ['api_key' => null]]],
+            [['currency_layer' => null]],
+            [['forge' => []]],
+            [['open_exchange_rates' => ['app_id' => true]]],
+            [['xignite' => ['token' => []]]],
+            [['array' => null]],
+            [['array' => []]],
+            [['array' => ['EUR/GBP' => 1.5]]],
+            [['array' => ['rates' => ['EUR/GBP' => 1.5]]]],
+            [['array' => ['rates' => [['EUR/GBP' => 0]]]]],
+            [['array' => ['rates' => [['any' => 'any']]]]],
+            [['array' => ['rates' => [['2017-01-01' => 'any']]]]],
+            [['array' => ['rates' => [['2017-01-01' => ['any' => 'any']]]]]],
+        ];
+    }
+
+    public function provideValidCacheConfigs()
+    {
+        return [
+            [[]],
+            [['ttl' => 60, 'type' => 'array']],
+        ];
+    }
+
+    public function provideInvalidCacheConfigs()
+    {
+        return [
+            [['any' => 'any']],
+            [['ttl' => false]],
+            [['type' => []]],
+        ];
+    }
+}
