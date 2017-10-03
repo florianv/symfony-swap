@@ -126,6 +126,18 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
     }
 
+    public function testFixerProvider()
+    {
+        $config = $this->createProvidersConfig(array('fixer' => null));
+        $this->extension->load($config, $this->container);
+
+        $definition = $this->container->getDefinition('florianv_swap.provider.fixer');
+
+        $this->assertFalse($definition->isPublic());
+        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
+        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
+    }
+
     /**
      * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
      */

@@ -49,6 +49,7 @@ class FlorianvSwapExtension extends Extension
     {
         foreach ($config as $providerName => $providerConfig) {
             switch ($providerName) {
+                case 'fixer':
                 case 'yahoo_finance':
                 case 'google_finance':
                 case 'european_central_bank':
