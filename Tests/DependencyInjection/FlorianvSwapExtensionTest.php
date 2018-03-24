@@ -12,6 +12,11 @@
 namespace Florianv\SwapBundle\Tests\DependencyInjection;
 
 use Florianv\SwapBundle\DependencyInjection\FlorianvSwapExtension;
+use Swap\Builder;
+use Swap\Swap;
+use Symfony\Component\Cache\Adapter;
+use Symfony\Component\Cache\Traits\ApcuTrait;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -34,223 +39,145 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension = new FlorianvSwapExtension();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
+    public function testBuilderService()
+    {
+        $this->buildContainer();
+
+        /** @var \Swap\Builder $builder */
+        $builder = $this->container->get('florianv_swap.builder');
+
+        $this->assertInstanceOf(Builder::class, $builder);
+    }
+
+    public function testSwapService()
+    {
+        $this->buildContainer();
+
+        /** @var \Swap\Swap $swap */
+        $swap = $this->container->get('florianv_swap.swap');
+        $this->assertInstanceOf(Swap::class, $swap);
+    }
+
     public function testNoProvider()
     {
-        $config = $this->createProvidersConfig(array());
-        $this->extension->load($config, $this->container);
+        $this->expectException(InvalidConfigurationException::class);
+
+        $this->buildContainer([], []);
     }
 
-    public function testYahooFinanceProvider()
+    public function testFixerProvider()
     {
-        $config = $this->createProvidersConfig(array('yahoo_finance' => null));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.yahoo_finance');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
+        $this->buildContainer(['fixer' => null]);
     }
 
-    public function testGoogleFinanceProvider()
+    public function testForgeProvider()
     {
-        $config = $this->createProvidersConfig(array('google_finance' => null));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.google_finance');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
+        $this->buildContainer(['forge' => ['api_key' => 'test']]);
     }
 
-    public function testEuropeanCentralBankProvider()
+    public function testProviderPriorities()
     {
-        $config = $this->createProvidersConfig(array('european_central_bank' => null));
-        $this->extension->load($config, $this->container);
+        $this->buildContainer([
+            'fixer' => null,
+            'google' => [
+                'priority' => 3,
+            ],
+            'forge' => [
+                'api_key' => 'test',
+                'priority' => 2,
+            ]
+        ]);
 
-        $definition = $this->container->getDefinition('florianv_swap.provider.european_central_bank');
+        $swap = $this->container->getDefinition('florianv_swap.builder');
+        $calls = $swap->getMethodCalls();
 
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
+        // Google first
+        $this->assertEquals($calls[0][0], 'add');
+        $this->assertEquals($calls[0][1][0], 'google');
+        $this->assertEquals($calls[0][1][1], []);
+
+        // Forge second
+        $this->assertEquals($calls[1][0], 'add');
+        $this->assertEquals($calls[1][1][0], 'forge');
+        $this->assertEquals($calls[1][1][1], ['api_key' => 'test']);
+
+        // Fixer third
+        $this->assertEquals($calls[2][0], 'add');
+        $this->assertEquals($calls[2][1][0], 'fixer');
+        $this->assertEquals($calls[2][1][1], []);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
-    public function testOpenExchangeRatesProviderMissingAppId()
-    {
-        $config = $this->createProvidersConfig(array('open_exchange_rates' => array()));
-        $this->extension->load($config, $this->container);
-    }
-
-    public function testOpenExchangeRatesProviderDefault()
-    {
-        $config = $this->createProvidersConfig(array('open_exchange_rates' => array('app_id' => 'secret')));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.open_exchange_rates');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret', false), $definition->getArguments());
-    }
-
-    public function testOpenExchangeRatesProvider()
-    {
-        $config = $this->createProvidersConfig(
-            array('open_exchange_rates' => array('app_id' => 'secret', 'enterprise' => true))
-        );
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.open_exchange_rates');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret', true), $definition->getArguments());
-    }
-
-    public function testWebserviceXProvider()
-    {
-        $config = $this->createProvidersConfig(array('webservicex' => null));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.webservicex');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
-    public function testXigniteProviderMissingToken()
-    {
-        $config = $this->createProvidersConfig(array('xignite' => array()));
-        $this->extension->load($config, $this->container);
-    }
-
-    public function testXigniteProvider()
-    {
-        $config = $this->createProvidersConfig(array('xignite' => array('token' => 'secret')));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.xignite');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret'), $definition->getArguments());
-    }
-
-    public function testCentralBankOfRepublicTurkeyProvider()
-    {
-        $config = $this->createProvidersConfig(array('central_bank_of_republic_turkey' => null));
-        $this->extension->load($config, $this->container);
-
-        $definition = $this->container->getDefinition('florianv_swap.provider.central_bank_of_republic_turkey');
-
-        $this->assertFalse($definition->isPublic());
-        $this->assertTrue($definition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $definition->getArguments());
-    }
-
-    public function testMultipleProviders()
-    {
-        $config = $this->createProvidersConfig(array(
-            'yahoo_finance' => null,
-            'google_finance' => null,
-            'xignite' => array('token' => 'secret')
-        ));
-        $this->extension->load($config, $this->container);
-
-        $yahooDefinition = $this->container->getDefinition('florianv_swap.provider.yahoo_finance');
-        $googleDefinition = $this->container->getDefinition('florianv_swap.provider.google_finance');
-        $xigniteDefinition = $this->container->getDefinition('florianv_swap.provider.xignite');
-
-        $this->assertFalse($yahooDefinition->isPublic());
-        $this->assertTrue($yahooDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $yahooDefinition->getArguments());
-
-        $this->assertFalse($googleDefinition->isPublic());
-        $this->assertTrue($googleDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter')), $googleDefinition->getArguments());
-
-        $this->assertFalse($xigniteDefinition->isPublic());
-        $this->assertTrue($xigniteDefinition->hasTag('florianv_swap.provider'));
-        $this->assertEquals(array(new Reference('florianv_swap.http_adapter'), 'secret'), $xigniteDefinition->getArguments());
-    }
-
-    /**
-     * @expectedException \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
-     */
     public function testCacheMissTtl()
     {
-        $config = array(
-            'florianv_swap' => array(
-                'cache'     => null,
-                'providers' => array('yahoo_finance' => null)
-            )
-        );
-        $this->extension->load($config, $this->container);
+        $this->expectException(InvalidConfigurationException::class);
+
+        $this->buildContainer(['fixer' => null], ['ttl' => null]);
     }
 
-    public function testDoctrineCacheProvider()
+    public function testArrayCache()
     {
-        $config = array(
-            'florianv_swap' => array(
-                'cache'     => array(
-                    'ttl' => 3600,
-                    'doctrine' => 'apcu',
-                ),
-                'providers' => array('yahoo_finance' => null)
-            )
-        );
-        $this->extension->load($config, $this->container);
+        $this->buildContainer(['fixer' => null], ['type' => 'array', 'ttl' => 60]);
 
-        $swap      = $this->container->getDefinition('florianv_swap.swap');
-        $arguments = $swap->getArguments();
-        $cache     = $arguments[1];
-
-        $this->assertEquals($cache->getClass(), '%florianv_swap.cache.doctrine.class%');
-        $this->assertFalse($cache->isPublic());
-
-        $apcuDefinition = new Definition('%florianv_swap.cache.doctrine.apcu.class%');
-        $apcuDefinition->setPublic(false);
-        $this->assertEquals(array($apcuDefinition, 3600), $cache->getArguments());
+        $this->assertCache(Adapter\ArrayAdapter::class, [60]);
     }
 
-    public function testDoctrineCacheService()
+    public function testApcuCache()
     {
-        $config = array(
-            'florianv_swap' => array(
-                'cache'     => array(
-                    'ttl' => 60,
-                    'doctrine' => 'my_service',
-                ),
-                'providers' => array('yahoo_finance' => null)
-            )
-        );
-        $this->extension->load($config, $this->container);
+        if (!ApcuTrait::isSupported()) {
+            $this->markTestSkipped('APCU is not enabled');
+        }
 
-        $swap = $this->container->getDefinition('florianv_swap.swap');
-        $arguments = $swap->getArguments();
-        $cache = $arguments[1];
-        $cacheArguments = $cache->getArguments();
+        $this->buildContainer(['fixer' => null], ['type' => 'apcu']);
 
-        $this->assertEquals($cache->getClass(), '%florianv_swap.cache.doctrine.class%');
-        $this->assertFalse($cache->isPublic());
-
-        $this->assertEquals(new Reference('my_service'), $cacheArguments[0]);
-        $this->assertEquals(60, $cacheArguments[1]);
+        $this->assertCache(Adapter\ApcuAdapter::class, ['swap', 3600]);
     }
 
-    private function createProvidersConfig(array $providers)
+    public function testFilesystemCache()
     {
-        return array('florianv_swap' => array('providers' => $providers));
+        $this->buildContainer(['fixer' => null], ['type' => 'filesystem']);
+
+        $this->assertCache(Adapter\FilesystemAdapter::class, ['swap', 3600]);
+    }
+
+    /**
+     * Builds the container.
+     *
+     * @param array $providers
+     * @param array $cache
+     */
+    private function buildContainer(array $providers = ['fixer' => null], array $cache = [])
+    {
+        $this->extension->load([
+            'florianv_swap' => [
+                'providers' => $providers,
+                'cache'     => $cache,
+            ],
+        ], $this->container);
+    }
+
+    /**
+     * Makes cache assertions.
+     *
+     * @param $class
+     * @param $config
+     */
+    private function assertCache($class, $config)
+    {
+        $swap = $this->container->getDefinition('florianv_swap.builder');
+        $calls = $swap->getMethodCalls();
+        $this->assertEquals($calls[0][0], 'useCacheItemPool');
+        /** @var Reference $cacheReference */
+        $cacheReference = $calls[0][1][0];
+        $this->assertEquals('florianv_swap.cache', (string)$cacheReference);
+
+        /** @var Definition */
+        $cacheDefinition = $this->container->getDefinition('florianv_swap.cache');
+        $this->assertEquals($cacheDefinition->getClass(), $class);
+        $this->assertFalse($cacheDefinition->isPublic());
+
+        $this->assertEquals($config, $cacheDefinition->getArguments());
+
+        $cache = $this->container->get('florianv_swap.cache');
+        $this->assertInstanceOf($class, $cache);
     }
 }
