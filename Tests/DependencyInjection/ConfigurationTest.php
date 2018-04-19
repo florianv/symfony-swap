@@ -83,7 +83,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->processor->processConfiguration($this->configuration, [
             'florianv_swap' => [
-                'providers' => ['fixer' => null],
+                'providers' => ['fixer' => ['access_key' => 'YOUR_KEY']],
                 'cache'     => $cache,
             ],
         ]);
@@ -100,7 +100,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->processor->processConfiguration($this->configuration, [
             'florianv_swap' => [
-                'providers' => ['fixer' => null],
+                'providers' => ['fixer' => ['access_key' => 'YOUR_KEY']],
                 'cache'     => $cache,
             ],
         ]);
@@ -112,7 +112,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['central_bank_of_czech_republic' => null]],
             [['central_bank_of_republic_turkey' => []]],
             [['european_central_bank' => null]],
-            [['fixer' => null]],
+            [['fixer' => ['access_key' => 'YOUR_KEY']]],
             [['google' => null]],
             [['national_bank_of_romania' => null]],
             [['webservicex' => null]],

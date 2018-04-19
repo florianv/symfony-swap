@@ -28,7 +28,8 @@ public function registerBundles()
 florianv_swap:
     providers:
         google: ~                          # Google Finance  
-        fixer: ~                           # Fixer
+        fixer:
+            access_key: secret             # Fixer
         webservicex: ~                     # WebserviceX 
         cryptonator: ~                     # Cryptonator 
         russian_central_bank: ~            # Russian Central Bank
@@ -67,6 +68,7 @@ florianv_swap:
         google: ~
             #priority: 0 (default)
         fixer: 
+            access_key: secret
             priority: 1
 ```
 

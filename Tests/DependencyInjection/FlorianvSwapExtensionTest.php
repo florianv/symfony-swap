@@ -67,7 +67,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testFixerProvider()
     {
-        $this->buildContainer(['fixer' => null]);
+        $this->buildContainer(['fixer' => ['access_key' => 'test']]);
     }
 
     public function testForgeProvider()
@@ -78,7 +78,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     public function testProviderPriorities()
     {
         $this->buildContainer([
-            'fixer' => null,
+            'fixer' => ['access_key' => 'YOUR_KEY'],
             'google' => [
                 'priority' => 3,
             ],
@@ -104,19 +104,19 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         // Fixer third
         $this->assertEquals($calls[2][0], 'add');
         $this->assertEquals($calls[2][1][0], 'fixer');
-        $this->assertEquals($calls[2][1][1], []);
+        $this->assertEquals($calls[2][1][1], ['access_key' => 'YOUR_KEY']);
     }
 
     public function testCacheMissTtl()
     {
         $this->expectException(InvalidConfigurationException::class);
 
-        $this->buildContainer(['fixer' => null], ['ttl' => null]);
+        $this->buildContainer(['fixer' => ['access_key' => 'YOUR_KEY']], ['ttl' => null]);
     }
 
     public function testArrayCache()
     {
-        $this->buildContainer(['fixer' => null], ['type' => 'array', 'ttl' => 60]);
+        $this->buildContainer(['fixer' => ['access_key' => 'YOUR_KEY']], ['type' => 'array', 'ttl' => 60]);
 
         $this->assertCache(Adapter\ArrayAdapter::class, [60]);
     }
@@ -127,14 +127,14 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('APCU is not enabled');
         }
 
-        $this->buildContainer(['fixer' => null], ['type' => 'apcu']);
+        $this->buildContainer(['fixer' => ['access_key' => 'YOUR_KEY']], ['type' => 'apcu']);
 
         $this->assertCache(Adapter\ApcuAdapter::class, ['swap', 3600]);
     }
 
     public function testFilesystemCache()
     {
-        $this->buildContainer(['fixer' => null], ['type' => 'filesystem']);
+        $this->buildContainer(['fixer' => ['access_key' => 'YOUR_KEY']], ['type' => 'filesystem']);
 
         $this->assertCache(Adapter\FilesystemAdapter::class, ['swap', 3600]);
     }
@@ -145,7 +145,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
      * @param array $providers
      * @param array $cache
      */
-    private function buildContainer(array $providers = ['fixer' => null], array $cache = [])
+    private function buildContainer(array $providers = ['fixer' => ['access_key' => 'test']], array $cache = [])
     {
         $this->extension->load([
             'florianv_swap' => [
