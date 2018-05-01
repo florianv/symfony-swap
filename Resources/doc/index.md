@@ -27,11 +27,11 @@ public function registerBundles()
 # app/config/config.yml
 florianv_swap:
     providers:
-        google: ~                          # Google Finance  
+        google: ~                          # Google Finance
         fixer:
             access_key: secret             # Fixer
-        webservicex: ~                     # WebserviceX 
-        cryptonator: ~                     # Cryptonator 
+        webservicex: ~                     # WebserviceX
+        cryptonator: ~                     # Cryptonator
         russian_central_bank: ~            # Russian Central Bank
         european_central_bank: ~           # European Central Bank
         national_bank_of_romania: ~        # National Bank of Romania
@@ -39,20 +39,20 @@ florianv_swap:
         central_bank_of_republic_turkey: ~ # Central Bank of the Republic of Turkey
         open_exchange_rates:               # Open Exchange Rates
             app_id: secret
-            enterprise: true 
+            enterprise: true
         currency_layer:                    # currencylayer
             access_key: secret
-            enterprise: true 
+            enterprise: true
         xignite:                           # Xignite
             token: secret
         forge:                             # Forge
             api_key: secret
         array:
             rates:
-                - 
+                -
                     'EUR/GBP': 1.5
                     'EUR/USD': 1.1
-                - 
+                -
                     '2017-01-01':
                         'EUR/GBP': 1.5
                         'EUR/USD': 1.1
@@ -67,7 +67,7 @@ florianv_swap:
     providers:
         google: ~
             #priority: 0 (default)
-        fixer: 
+        fixer:
             access_key: secret
             priority: 1
 ```
