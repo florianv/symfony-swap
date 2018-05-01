@@ -1,7 +1,7 @@
 # Installation
 
 ```bash
-composer require florianv/symfony-swap php-http/message php-http/guzzle6-adapter
+composer require florianv/swap-bundle php-http/message php-http/guzzle6-adapter
 ```
 
 Enable the Bundle in the kernel:
