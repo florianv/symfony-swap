@@ -1,6 +1,7 @@
 # Documentation
 
 ## Index
+
 * [Installation](#installation)
 * [Configuration](#configuration)
   * [Services](#services)
