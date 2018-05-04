@@ -1,8 +1,8 @@
 # <img src="https://s3.amazonaws.com/swap.assets/swap_logo.png" height="30px" width="30px"/> Symfony Swap
 
 [![Build status](http://img.shields.io/travis/florianv/symfony-swap.svg?style=flat-square)](https://travis-ci.org/florianv/symfony-swap)
-[![Total Downloads](https://img.shields.io/packagist/dt/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/symfony-swap)
-[![Version](http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/symfony-swap)
+[![Total Downloads](https://img.shields.io/packagist/dt/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/swap-bundle)
+[![Version](http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/swap-bundle)
 
 Swap allows you to retrieve currency exchange rates from various services such as **[Fixer](https://fixer.io)**, **[currencylayer](https://currencylayer.com)** or **[1Forge](https://1forge.com)** 
 and optionally cache the results.
