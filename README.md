@@ -1,30 +1,68 @@
-# FlorianvSwapBundle
+# <img src="https://s3.amazonaws.com/swap.assets/swap_logo.png" height="30px" width="30px"/> Symfony Swap
 
-[![Build status][travis-image]][travis-url]
-[![Version][version-image]][version-url]
-[![Downloads][downloads-image]][downloads-url]
+[![Build status](http://img.shields.io/travis/florianv/symfony-swap.svg?style=flat-square)](https://travis-ci.org/florianv/symfony-swap)
+[![Total Downloads](https://img.shields.io/packagist/dt/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/symfony-swap)
+[![Version](http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/symfony-swap)
 
-> Integrates the [Swap](https://github.com/florianv/swap) library with Symfony
+Swap allows you to retrieve currency exchange rates from various services such as **[Fixer](https://fixer.io)**, **[currencylayer](https://currencylayer.com)** or **[1Forge](https://1forge.com)** 
+and optionally cache the results.
+
+## QuickStart
+
+```bash
+$ composer require florianv/swap-bundle php-http/message php-http/guzzle6-adapter
+```
 
 ## Documentation
 
-[Read the Documentation for master](https://github.com/florianv/FlorianvSwapBundle/blob/master/Resources/doc/index.md)
+The complete documentation can be found [here](https://github.com/florianv/symfony-swap/blob/master/Resources/doc/index.md).
 
-All the installation instructions are located in the documentation.
+## Sponsors :heart_eyes: 
+
+We are proudly supported by the following echange rate providers offering *free plans up to 1,000 requests per day*:
+
+<img src="https://s3.amazonaws.com/swap.assets/fixer_icon.png?v=2" height="20px" width="20px"/> **[Fixer](https://fixer.io)**
+
+Fixer is a simple and lightweight API for foreign exchange rates that supports up to 170 world currencies.
+They provide real-time rates and historical data, however, EUR is the only available base currency on the free plan.
+
+<img src="https://s3.amazonaws.com/swap.assets/currencylayer_icon.png" height="20px" width="20px"/> **[currencylayer](https://currencylayer.com)**
+
+Currencylayer provides reliable exchange rates and currency conversions for your business up to 168 world currencies.
+They provide real-time rates and historical data, however, USD is the only available base currency on the free plan.
+
+<img src="https://s3.amazonaws.com/swap.assets/1forge_icon.png" height="20px" width="20px"/> **[1Forge](https://1forge.com)**
+
+1Forge provides Forex and Cryptocurrency quotes for over 700 unique currency pairs. 
+They provide the fastest price updates available of any provider, however, they don’t support smaller currencies or historical data.
+
+## Services
+
+Here is the list of the currently implemented services:
+
+| Service | Base Currency | Quote Currency | Historical |
+|---------------------------------------------------------------------------|----------------------|----------------|----------------|
+| [Fixer](https://fixer.io) | EUR (free, no SSL), * (paid) | * | Yes |
+| [currencylayer](https://currencylayer.com) | USD (free), * (paid) | * | Yes |
+| [1Forge](https://1forge.com) | * (free but limited or paid) | * (free but limited or paid) | No |
+| [European Central Bank](https://www.ecb.europa.eu/home/html/index.en.html) | EUR | * | Yes |
+| [National Bank of Romania](http://www.bnr.ro) | RON | * | Yes |
+| [Central Bank of the Republic of Turkey](http://www.tcmb.gov.tr) | * | TRY | No |
+| [Central Bank of the Czech Republic](https://www.cnb.cz) | * | CZK | Yes |
+| [Central Bank of Russia](https://cbr.ru) | * | RUB | Yes |
+| [WebserviceX](http://www.webservicex.net) | * | * | No |
+| [Google](https://www.google.com/finance) | * | * | No |
+| [Cryptonator](https://www.cryptonator.com) | * Crypto (Limited standard currencies) | * Crypto (Limited standard currencies)  | No |
+| [CurrencyDataFeed](https://currencydatafeed.com) | * (free but limited or paid) | * (free but limited or paid) | No |
+| [Open Exchange Rates](https://openexchangerates.org) | USD (free), * (paid) | * | Yes |
+| [Xignite](https://www.xignite.com) | * | * | Yes |
+| Array | * | * | Yes |
+
+## Credits
+
+- [Florian Voutzinos](https://github.com/florianv)
+- [All Contributors](https://github.com/florianv/symfony-swap/contributors)
 
 ## License
 
-This bundle is under the MIT license. See the complete license in the bundle:
-
-```
-Resources/meta/LICENSE
-```
-
-[travis-url]: https://travis-ci.org/florianv/symfony-swap
-[travis-image]: http://img.shields.io/travis/florianv/symfony-swap.svg
-
-[version-url]: https://packagist.org/packages/florianv/swap-bundle
-[version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg
-
-[downloads-url]: https://packagist.org/packages/florianv/swap-bundle
-[downloads-image]: https://img.shields.io/packagist/dt/florianv/swap-bundle.svg
+The MIT License (MIT). Please see [LICENSE](https://github.com/florianv/symfony-swap/blob/master/Resources/meta/LICENSE) for more information.
