@@ -10,7 +10,7 @@ and optionally cache the results.
 ## QuickStart
 
 ```bash
-$ composer require florianv/swap-bundle php-http/message php-http/guzzle6-adapter
+$ composer require florianv/swap-bundle php-http/message php-http/guzzle6-adapter ^1.0
 ```
 
 ## Documentation
