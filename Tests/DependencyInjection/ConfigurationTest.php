@@ -127,17 +127,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [[
                 'array' => [
                     'rates' => [
-                        [
-                            'EUR/USD' => 1.1,
-                            'EUR/GBP' => 1.5,
+                        'EUR/USD' => 1.1,
+                        'EUR/GBP' => 1.5,
+                    ],
+                    'historicalRates' => [
+                        '2017-01-01' => [
+                            'EUR/USD' => 1.5,
                         ],
-                        [
-                            '2017-01-01' => [
-                                'EUR/USD' => 1.5,
-                            ],
-                            '2017-01-03' => [
-                                'EUR/GBP' => 1.3,
-                            ],
+                        '2017-01-03' => [
+                            'EUR/GBP' => 1.3,
                         ],
                     ],
                 ],
