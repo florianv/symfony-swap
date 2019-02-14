@@ -144,14 +144,28 @@ class Configuration implements ConfigurationInterface
                                                 return true;
                                             }
 
-                                            foreach ($config as $entry) {
-                                                if (!is_array($entry) || empty($entry)) {
-                                                    return true;
-                                                }
+                                            if (!$this->validateArrayProviderEntry($config)) {
+                                                return true;
+                                            }
 
-                                                if (!$this->validateArrayProviderEntry($entry)) {
-                                                    return true;
-                                                }
+                                            return false;
+                                        })
+                                        ->thenInvalid('Invalid configuration for array provider.')
+                                    ->end()
+                                ->end()
+                                ->variableNode('historicalRates')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                    ->validate()
+                                        ->ifTrue(function($config) {
+                                            if (!is_array($config) || empty($config)) {
+                                                return true;
+                                            }
+
+                                            if (!$this->validateArrayProviderEntry($config)) {
+                                                return true;
                                             }
 
                                             return false;
