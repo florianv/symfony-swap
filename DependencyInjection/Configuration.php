@@ -156,7 +156,6 @@ class Configuration implements ConfigurationInterface
                                 ->variableNode('historicalRates')
                                     ->treatFalseLike(null)
                                     ->treatTrueLike(null)
-                                    ->isRequired()
                                     ->cannotBeEmpty()
                                     ->validate()
                                         ->ifTrue(function($config) {
