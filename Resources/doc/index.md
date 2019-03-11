@@ -66,10 +66,9 @@ florianv_swap:
             token: secret
         array:
             rates:
-                -
                     'EUR/GBP': 1.5
                     'EUR/USD': 1.1
-                -
+            historicalRates:
                     '2017-01-01':
                         'EUR/GBP': 1.5
                         'EUR/USD': 1.1
