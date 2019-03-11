@@ -140,6 +140,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                     ],
                 ],
             ]],
+            [[
+                'array' => [
+                    'rates' => [
+                        'EUR/USD' => 1.1,
+                        'EUR/GBP' => 1.5,
+                    ],
+                ],
+            ]],
         ];
     }
 
@@ -165,7 +173,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['array' => null]],
             [['array' => []]],
             [['array' => ['EUR/GBP' => 1.5]]],
-            [['array' => ['rates' => ['EUR/GBP' => 1.5]]]],
             [['array' => ['rates' => [['EUR/GBP' => 0]]]]],
             [['array' => ['rates' => [['any' => 'any']]]]],
             [['array' => ['rates' => [['2017-01-01' => 'any']]]]],
