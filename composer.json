@@ -15,7 +15,7 @@
     "require": {
         "php": "^5.6|^7.0",
         "symfony/framework-bundle": "~3.0 || ~4.0",
-        "florianv/swap": "^3.4"
+        "florianv/swap": "^4.0"
     },
     "require-dev": {
         "php-http/guzzle6-adapter": "^1.0",
