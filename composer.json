@@ -12,6 +12,9 @@
             "homepage": "http://florian.voutzinos.com"
         }
     ],
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "require": {
         "php": "^5.6|^7.0",
         "symfony/framework-bundle": "~3.0 || ~4.0",
