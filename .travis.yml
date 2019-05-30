@@ -2,23 +2,25 @@ language: php
 
 sudo: false
 
+env:
+  global:
+    - PREFER="--prefer-dist"
+
+matrix:
+    fast_finish: true
+    include:
+        - php: 7.1
+          env: PREFER="--prefer-lowest"
+        - php: 7.1
+        - php: 7.2
+        - php: 7.3
+
 cache:
-    directories:
-        - vendor
-        - $HOME/.composer/cache
+  directories:
+    - $HOME/.composer/cache
 
-php:
-    - 5.6
-    - 7.0
-    - 7.1
-
-before_install:
-    - if [[ $TRAVIS_PHP_VERSION != 'hhvm' ]] ; then pecl channel-update pecl.php.net; fi;
-    - if [[ $TRAVIS_PHP_VERSION = 7.* ]] ; then pecl config-set preferred_state beta; echo yes | pecl install apcu; fi;
-    - if [[ $TRAVIS_PHP_VERSION != 'hhvm' ]]; then phpenv config-add ./Tests/travis/php.ini; fi;
-
-install:
-    - travis_retry composer install --no-interaction --no-ansi --no-progress --no-suggest --optimize-autoloader
+before_script:
+  - composer update --no-interaction $PREFER
 
 script:
-    - ./vendor/bin/phpunit
+  - composer test
