@@ -79,7 +79,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->buildContainer([
             'fixer' => ['access_key' => 'YOUR_KEY'],
-            'google' => [
+            'european_central_bank' => [
                 'priority' => 3,
             ],
             'forge' => [
@@ -91,9 +91,9 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $swap = $this->container->getDefinition('florianv_swap.builder');
         $calls = $swap->getMethodCalls();
 
-        // Google first
+        // European Central Bank first
         $this->assertEquals($calls[0][0], 'add');
-        $this->assertEquals($calls[0][1][0], 'google');
+        $this->assertEquals($calls[0][1][0], 'european_central_bank');
         $this->assertEquals($calls[0][1][1], []);
 
         // Forge second
@@ -165,7 +165,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $swap = $this->container->getDefinition('florianv_swap.builder');
         $calls = $swap->getMethodCalls();
-        $this->assertEquals($calls[0][0], 'useCacheItemPool');
+        $this->assertEquals($calls[0][0], 'useSimpleCache');
         /** @var Reference $cacheReference */
         $cacheReference = $calls[0][1][0];
         $this->assertEquals('florianv_swap.cache', (string)$cacheReference);

@@ -49,7 +49,6 @@ florianv_swap:
         currency_layer:                    # currencylayer
             access_key: secret
             enterprise: true
-        google: ~                          # Google Finance
         webservicex: ~                     # WebserviceX
         cryptonator: ~                     # Cryptonator
         forge:                             # Forge

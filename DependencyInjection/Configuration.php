@@ -70,7 +70,6 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
-                        ->append($this->createSimpleProviderNode('google'))
                         ->append($this->createSimpleProviderNode('cryptonator'))
                         ->append($this->createSimpleProviderNode('webservicex'))
                         ->append($this->createSimpleProviderNode('central_bank_of_czech_republic'))
