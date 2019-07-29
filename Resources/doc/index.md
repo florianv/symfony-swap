@@ -64,6 +64,9 @@ florianv_swap:
             enterprise: true
         xignite:                           # Xignite
             token: secret
+        currency_converter:                # Currency Converter API
+            access_key: secret
+            enterprise: true
         array:
             rates:
                     'EUR/GBP': 1.5
