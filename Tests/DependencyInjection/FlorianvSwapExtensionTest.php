@@ -172,12 +172,13 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
         /** @var Definition */
         $cacheDefinition = $this->container->getDefinition('florianv_swap.cache');
-        $this->assertEquals($cacheDefinition->getClass(), $class);
+        $this->assertEquals($cacheDefinition->getClass(), 'Symfony\Component\Cache\Psr16Cache');
+        $this->assertEquals($cacheDefinition->getArgument(0)->getClass(), $class);
         $this->assertFalse($cacheDefinition->isPublic());
 
-        $this->assertEquals($config, $cacheDefinition->getArguments());
+        $this->assertEquals($config, $cacheDefinition->getArgument(0)->getArguments());
 
         $cache = $this->container->get('florianv_swap.cache');
-        $this->assertInstanceOf($class, $cache);
+        $this->assertInstanceOf('Symfony\Component\Cache\Psr16Cache', $cache);
     }
 }
