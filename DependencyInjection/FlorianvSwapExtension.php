@@ -102,7 +102,7 @@ class FlorianvSwapExtension extends Extension
                 throw new InvalidArgumentException("Cache class $class does not exist.");
             }
 
-            $definition = new Definition($class, $arguments);
+            $definition = new Definition('Symfony\Component\Cache\Psr16Cache', [new Definition($class, $arguments)]);
             $definition->setPublic(false);
             $container->setDefinition($id, $definition);
         } elseif ($container->hasDefinition($type)) {
