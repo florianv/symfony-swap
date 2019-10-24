@@ -68,6 +68,7 @@ class Configuration implements ConfigurationInterface
                                     ->isRequired()
                                     ->cannotBeEmpty()
                                 ->end()
+                                ->booleanNode('enterprise')->defaultFalse()->end()
                             ->end()
                         ->end()
                         ->append($this->createSimpleProviderNode('cryptonator'))

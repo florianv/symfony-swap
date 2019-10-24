@@ -104,7 +104,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         // Fixer third
         $this->assertEquals($calls[2][0], 'add');
         $this->assertEquals($calls[2][1][0], 'fixer');
-        $this->assertEquals($calls[2][1][1], ['access_key' => 'YOUR_KEY']);
+        $this->assertEquals($calls[2][1][1], ['access_key' => 'YOUR_KEY', 'enterprise' => false]);
     }
 
     public function testCacheMissTtl()
