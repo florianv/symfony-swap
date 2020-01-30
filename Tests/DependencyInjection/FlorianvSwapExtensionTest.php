@@ -15,7 +15,7 @@ use Florianv\SwapBundle\DependencyInjection\FlorianvSwapExtension;
 use Swap\Builder;
 use Swap\Swap;
 use Symfony\Component\Cache\Adapter;
-use Symfony\Component\Cache\Traits\ApcuTrait;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -123,7 +123,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testApcuCache()
     {
-        if (!ApcuTrait::isSupported()) {
+        if (!ApcuAdapter::isSupported()) {
             $this->markTestSkipped('APCU is not enabled');
         }
 
@@ -160,6 +160,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
      *
      * @param $class
      * @param $config
+     * @throws \Exception
      */
     private function assertCache($class, $config)
     {
