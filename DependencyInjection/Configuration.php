@@ -26,8 +26,13 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('florianv_swap');
-        $rootNode = $treeBuilder->getRootNode();
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('florianv_swap');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('florianv_swap');
+        }
 
         $rootNode
             ->fixXmlConfig('provider')
@@ -194,10 +199,17 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+
     private function createSimpleProviderNode($name)
     {
-        $treeBuilder = new TreeBuilder($name);
-        $node = $treeBuilder->getRootNode();
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder($name);
+            $node = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $node = $treeBuilder->root($name);
+        }
+
         $node
             ->children()
                 ->integerNode('priority')->defaultValue(0)->end()
