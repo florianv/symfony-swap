@@ -49,11 +49,10 @@ florianv_swap:
         currency_layer:                    # currencylayer
             access_key: secret
             enterprise: true
-        forge:                             # Forge
-            api_key: secret    
-        google: ~                          # Google Finance
         webservicex: ~                     # WebserviceX
         cryptonator: ~                     # Cryptonator
+        forge:                             # Forge
+           api_key: secret    
         russian_central_bank: ~            # Russian Central Bank
         european_central_bank: ~           # European Central Bank
         national_bank_of_romania: ~        # National Bank of Romania
@@ -64,20 +63,21 @@ florianv_swap:
             enterprise: true
         xignite:                           # Xignite
             token: secret
+        currency_converter:                # Currency Converter API
+            access_key: secret
+            enterprise: true
         array:
             rates:
-                -
                     'EUR/GBP': 1.5
                     'EUR/USD': 1.1
-                -
+            historicalRates:
                     '2017-01-01':
                         'EUR/GBP': 1.5
                         'EUR/USD': 1.1
 ```
 
 You can register multiple providers, they will be called in chain regarding to their priorities (higher first).
-In this example, Swap uses the [Fixer](http://fixer.io) service, and will fallback to [currencylayer](https://currencylayer.com) 
-and then [1Forge](https://1forge.com), in case of failure.
+In this example, Swap uses the [Fixer](http://fixer.io) service, and will fallback to [currencylayer](https://currencylayer.com) in case of failure.
 
 ```yaml
 # app/config/config.yml
@@ -89,10 +89,7 @@ florianv_swap:
         currency_layer:                   
             access_key: secret
             enterprise: true
-            priority: 1
-        forge:                            
-            api_key: secret
-            #priority: 2 (default)            
+            priority: 1          
 ```
 
 ### Cache
@@ -154,8 +151,3 @@ They provide real-time rates and historical data, however, EUR is the only avail
 
 Currencylayer provides reliable exchange rates and currency conversions for your business up to 168 world currencies.
 They provide real-time rates and historical data, however, USD is the only available base currency on the free plan.
-
-<img src="https://s3.amazonaws.com/swap.assets/1forge_icon.png" height="20px" width="20px"/> **[1Forge](https://1forge.com)**
-
-1Forge provides Forex and Cryptocurrency quotes for over 700 unique currency pairs. 
-They provide the fastest price updates available of any provider, however, they don’t support smaller currencies or historical data.

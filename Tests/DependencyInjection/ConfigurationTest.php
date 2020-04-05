@@ -113,7 +113,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['central_bank_of_republic_turkey' => []]],
             [['european_central_bank' => null]],
             [['fixer' => ['access_key' => 'YOUR_KEY']]],
-            [['google' => null]],
             [['national_bank_of_romania' => null]],
             [['webservicex' => null]],
             [['russian_central_bank' => null]],
@@ -124,21 +123,28 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['open_exchange_rates' => ['app_id' => 'any']]],
             [['xignite' => ['token' => 'any']]],
             [['xignite' => ['token' => 'any'], 'currency_layer' => ['access_key' => 'any']]],
+            [['currency_converter' => ['access_key' => 'any']]],
             [[
                 'array' => [
                     'rates' => [
-                        [
-                            'EUR/USD' => 1.1,
-                            'EUR/GBP' => 1.5,
+                        'EUR/USD' => 1.1,
+                        'EUR/GBP' => 1.5,
+                    ],
+                    'historicalRates' => [
+                        '2017-01-01' => [
+                            'EUR/USD' => 1.5,
                         ],
-                        [
-                            '2017-01-01' => [
-                                'EUR/USD' => 1.5,
-                            ],
-                            '2017-01-03' => [
-                                'EUR/GBP' => 1.3,
-                            ],
+                        '2017-01-03' => [
+                            'EUR/GBP' => 1.3,
                         ],
+                    ],
+                ],
+            ]],
+            [[
+                'array' => [
+                    'rates' => [
+                        'EUR/USD' => 1.1,
+                        'EUR/GBP' => 1.5,
                     ],
                 ],
             ]],
@@ -154,7 +160,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['central_bank_of_republic_turkey' => ['any' => 'any']]],
             [['european_central_bank' => ['any' => 'any']]],
             [['fixer' => ['any' => 'any']]],
-            [['google' => ['any']]],
             [['national_bank_of_romania' => ['any' => 'any']]],
             [['webservicex' => ['any' => 'any']]],
             [['russian_central_bank' => ['any' => 'any']]],
@@ -164,10 +169,10 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['forge' => []]],
             [['open_exchange_rates' => ['app_id' => true]]],
             [['xignite' => ['token' => []]]],
+            [['currency_converter' => ['access_key' => null]]],
             [['array' => null]],
             [['array' => []]],
             [['array' => ['EUR/GBP' => 1.5]]],
-            [['array' => ['rates' => ['EUR/GBP' => 1.5]]]],
             [['array' => ['rates' => [['EUR/GBP' => 0]]]]],
             [['array' => ['rates' => [['any' => 'any']]]]],
             [['array' => ['rates' => [['2017-01-01' => 'any']]]]],

@@ -26,8 +26,14 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('florianv_swap');
-        $rootNode = $treeBuilder->getRootNode();
+
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('florianv_swap');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('florianv_swap');
+        }
 
         $rootNode
             ->fixXmlConfig('provider')
@@ -63,10 +69,10 @@ class Configuration implements ConfigurationInterface
                                     ->isRequired()
                                     ->cannotBeEmpty()
                                 ->end()
+                                ->booleanNode('enterprise')->defaultFalse()->end()
                             ->end()
                         ->end()
-                        ->append($this->createSimpleProviderNode('google'))
-                        ->append($this->createSimpleProviderNode('cryptonator'))
+                        ->append(getConfigTreeBuilder()$this->createSimpleProviderNode('cryptonator'))
                         ->append($this->createSimpleProviderNode('webservicex'))
                         ->append($this->createSimpleProviderNode('central_bank_of_czech_republic'))
                         ->append($this->createSimpleProviderNode('central_bank_of_republic_turkey'))
@@ -130,6 +136,18 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
+                        ->arrayNode('currency_converter')
+                            ->children()
+                                ->integerNode('priority')->defaultValue(0)->end()
+                                ->scalarNode('access_key')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->isRequired()
+                                    ->cannotBeEmpty()
+                                ->end()
+                                ->booleanNode('enterprise')->defaultFalse()->end()
+                            ->end()
+                        ->end()
                         ->arrayNode('array')
                             ->children()
                                 ->integerNode('priority')->defaultValue(0)->end()
@@ -144,14 +162,27 @@ class Configuration implements ConfigurationInterface
                                                 return true;
                                             }
 
-                                            foreach ($config as $entry) {
-                                                if (!is_array($entry) || empty($entry)) {
-                                                    return true;
-                                                }
+                                            if (!$this->validateArrayProviderEntry($config)) {
+                                                return true;
+                                            }
 
-                                                if (!$this->validateArrayProviderEntry($entry)) {
-                                                    return true;
-                                                }
+                                            return false;
+                                        })
+                                        ->thenInvalid('Invalid configuration for array provider.')
+                                    ->end()
+                                ->end()
+                                ->variableNode('historicalRates')
+                                    ->treatFalseLike(null)
+                                    ->treatTrueLike(null)
+                                    ->cannotBeEmpty()
+                                    ->validate()
+                                        ->ifTrue(function($config) {
+                                            if (!is_array($config) || empty($config)) {
+                                                return true;
+                                            }
+
+                                            if (!$this->validateArrayProviderEntry($config)) {
+                                                return true;
                                             }
 
                                             return false;
@@ -169,10 +200,18 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+
     private function createSimpleProviderNode($name)
     {
-        $treeBuilder = new TreeBuilder($name);
-        $node = $treeBuilder->getRootNode();
+
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder($name);
+            $node = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $node = $treeBuilder->root($name);
+        }
+
         $node
             ->children()
                 ->integerNode('priority')->defaultValue(0)->end()

@@ -79,7 +79,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->buildContainer([
             'fixer' => ['access_key' => 'YOUR_KEY'],
-            'google' => [
+            'european_central_bank' => [
                 'priority' => 3,
             ],
             'forge' => [
@@ -91,9 +91,9 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $swap = $this->container->getDefinition('florianv_swap.builder');
         $calls = $swap->getMethodCalls();
 
-        // Google first
+        // European Central Bank first
         $this->assertEquals($calls[0][0], 'add');
-        $this->assertEquals($calls[0][1][0], 'google');
+        $this->assertEquals($calls[0][1][0], 'european_central_bank');
         $this->assertEquals($calls[0][1][1], []);
 
         // Forge second
@@ -104,7 +104,7 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         // Fixer third
         $this->assertEquals($calls[2][0], 'add');
         $this->assertEquals($calls[2][1][0], 'fixer');
-        $this->assertEquals($calls[2][1][1], ['access_key' => 'YOUR_KEY']);
+        $this->assertEquals($calls[2][1][1], ['access_key' => 'YOUR_KEY', 'enterprise' => false]);
     }
 
     public function testCacheMissTtl()
@@ -166,19 +166,20 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $swap = $this->container->getDefinition('florianv_swap.builder');
         $calls = $swap->getMethodCalls();
-        $this->assertEquals($calls[0][0], 'useCacheItemPool');
+        $this->assertEquals($calls[0][0], 'useSimpleCache');
         /** @var Reference $cacheReference */
         $cacheReference = $calls[0][1][0];
         $this->assertEquals('florianv_swap.cache', (string)$cacheReference);
 
         /** @var Definition */
         $cacheDefinition = $this->container->getDefinition('florianv_swap.cache');
-        $this->assertEquals($cacheDefinition->getClass(), $class);
+        $this->assertEquals($cacheDefinition->getClass(), 'Symfony\Component\Cache\Psr16Cache');
+        $this->assertEquals($cacheDefinition->getArgument(0)->getClass(), $class);
         $this->assertFalse($cacheDefinition->isPublic());
 
-        $this->assertEquals($config, $cacheDefinition->getArguments());
+        $this->assertEquals($config, $cacheDefinition->getArgument(0)->getArguments());
 
         $cache = $this->container->get('florianv_swap.cache');
-        $this->assertInstanceOf($class, $cache);
+        $this->assertInstanceOf('Symfony\Component\Cache\Psr16Cache', $cache);
     }
 }

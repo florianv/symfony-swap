@@ -11,7 +11,7 @@
 
 namespace Florianv\SwapBundle\DependencyInjection;
 
-use Psr\Cache\CacheItemPoolInterface;
+use Psr\SimpleCache\CacheInterface;
 use Swap;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -102,13 +102,13 @@ class FlorianvSwapExtension extends Extension
                 throw new InvalidArgumentException("Cache class $class does not exist.");
             }
 
-            $definition = new Definition($class, $arguments);
+            $definition = new Definition('Symfony\Component\Cache\Psr16Cache', [new Definition($class, $arguments)]);
             $definition->setPublic(false);
             $container->setDefinition($id, $definition);
         } elseif ($container->hasDefinition($type)) {
             $definition = $container->getDefinition($type);
-            if (!is_subclass_of($definition->getClass(), CacheItemPoolInterface::class)) {
-                throw new InvalidArgumentException("Service '$type' does not implements " . CacheItemPoolInterface::class);
+            if (!is_subclass_of($definition->getClass(), CacheInterface::class)) {
+                throw new InvalidArgumentException("Service '$type' does not implements " . CacheInterface::class);
             }
 
             $id = $type;
@@ -119,7 +119,7 @@ class FlorianvSwapExtension extends Extension
         $definition = $container->getDefinition('florianv_swap.builder');
         $definition
             ->replaceArgument(0, ['cache_ttl' => $ttl])
-            ->addMethodCall('useCacheItemPool', [new Reference($id)]);
+            ->addMethodCall('useSimpleCache', [new Reference($id)]);
     }
 
     /**
