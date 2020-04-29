@@ -72,6 +72,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                         ->append($this->createSimpleProviderNode('cryptonator'))
+                        ->append($this->createSimpleProviderNode('exchange_rates_api'))
                         ->append($this->createSimpleProviderNode('webservicex'))
                         ->append($this->createSimpleProviderNode('central_bank_of_czech_republic'))
                         ->append($this->createSimpleProviderNode('central_bank_of_republic_turkey'))
