@@ -51,6 +51,7 @@ florianv_swap:
             enterprise: true
         webservicex: ~                     # WebserviceX
         cryptonator: ~                     # Cryptonator
+        exchange_rates_api: ~              # exchangeratesapi.io
         forge:                             # Forge
            api_key: secret    
         russian_central_bank: ~            # Russian Central Bank
