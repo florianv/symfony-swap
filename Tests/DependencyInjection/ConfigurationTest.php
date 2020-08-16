@@ -125,6 +125,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['xignite' => ['token' => 'any']]],
             [['xignite' => ['token' => 'any'], 'currency_layer' => ['access_key' => 'any']]],
             [['currency_converter' => ['access_key' => 'any']]],
+            [['xchangeapi' => ['api-key' => 'any']]],
             [[
                 'array' => [
                     'rates' => [
@@ -172,6 +173,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [['open_exchange_rates' => ['app_id' => true]]],
             [['xignite' => ['token' => []]]],
             [['currency_converter' => ['access_key' => null]]],
+            [['xchangeapi' => ['api_key' => null]]],
             [['array' => null]],
             [['array' => []]],
             [['array' => ['EUR/GBP' => 1.5]]],
