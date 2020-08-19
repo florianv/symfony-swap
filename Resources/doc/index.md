@@ -67,6 +67,8 @@ florianv_swap:
         currency_converter:                # Currency Converter API
             access_key: secret
             enterprise: true
+        xchangeapi:                        # xChangeApi.com
+           api-key: secret    
         array:
             rates:
                     'EUR/GBP': 1.5

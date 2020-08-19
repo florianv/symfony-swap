@@ -75,6 +75,11 @@ class FlorianvSwapExtensionTest extends \PHPUnit_Framework_TestCase
         $this->buildContainer(['forge' => ['api_key' => 'test']]);
     }
 
+    public function testXchangeApiProvider()
+    {
+        $this->buildContainer(['xchangeapi' => ['api-key' => 'test']]);
+    }
+
     public function testProviderPriorities()
     {
         $this->buildContainer([
