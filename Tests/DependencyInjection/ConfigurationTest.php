@@ -12,6 +12,7 @@
 namespace Florianv\SwapBundle\Tests\DependencyInjection;
 
 use Florianv\SwapBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Config\Definition\Processor;
 
@@ -20,25 +21,25 @@ use Symfony\Component\Config\Definition\Processor;
  * @package Tests\DependencyInjection
  * @author  Etienne Dauvergne <contact@ekyna.com>
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     /**
-     * @var Configuration
+     * @var ?Configuration
      */
     private $configuration;
 
     /**
-     * @var Processor
+     * @var ?Processor
      */
     private $processor;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->configuration = new Configuration();
         $this->processor = new Processor();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->configuration = null;
         $this->processor = null;
@@ -49,13 +50,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideValidProvidersConfigs
      */
-    public function testValidProvidersConfig(array $providers)
+    public function testValidProvidersConfig(array $providers): void
     {
-        $this->processor->processConfiguration($this->configuration, [
+        $configuration = $this->processor->processConfiguration($this->configuration, [
             'florianv_swap' => [
                 'providers' => $providers,
             ],
         ]);
+
+        self::assertTrue(is_array($configuration));
+
     }
 
     /**
@@ -63,7 +67,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideInvalidProvidersConfigs
      */
-    public function testInvalidProvidersConfig(array $providers)
+    public function testInvalidProvidersConfig(array $providers): void
     {
         $this->expectException(Exception::class);
 
@@ -79,14 +83,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideValidCacheConfigs
      */
-    public function testValidCacheConfig(array $cache)
+    public function testValidCacheConfig(array $cache): void
     {
-        $this->processor->processConfiguration($this->configuration, [
+        $configuration = $this->processor->processConfiguration($this->configuration, [
             'florianv_swap' => [
                 'providers' => ['fixer' => ['access_key' => 'YOUR_KEY']],
                 'cache'     => $cache,
             ],
         ]);
+
+        self::assertTrue(is_array($configuration));
     }
 
     /**
@@ -94,7 +100,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider provideInvalidCacheConfigs
      */
-    public function testInvalidCacheConfig(array $cache)
+    public function testInvalidCacheConfig(array $cache): void
     {
         $this->expectException(Exception::class);
 
@@ -106,7 +112,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
-    public function provideValidProvidersConfigs()
+    public function provideValidProvidersConfigs(): array
     {
         return [
             [['central_bank_of_czech_republic' => null]],
@@ -153,7 +159,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function provideInvalidProvidersConfigs()
+    public function provideInvalidProvidersConfigs(): array
     {
         return [
             [[]],
@@ -184,7 +190,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function provideValidCacheConfigs()
+    public function provideValidCacheConfigs(): array
     {
         return [
             [[]],
@@ -192,7 +198,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function provideInvalidCacheConfigs()
+    public function provideInvalidCacheConfigs(): array
     {
         return [
             [['any' => 'any']],
