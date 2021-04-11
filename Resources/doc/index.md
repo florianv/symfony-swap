@@ -1,5 +1,18 @@
 # Documentation
 
+## Sponsors
+
+<table>
+   <tr>
+      <td><img src="https://s3.amazonaws.com/swap.assets/fixer_icon.png?v=2" width="50px"/></td>
+      <td><a href="https://fixer.io">Fixer</a> is a simple and lightweight API for foreign exchange rates that supports up to 170 world currencies.</td>
+   </tr>
+   <tr>
+     <td><img src="https://s3.amazonaws.com/swap.assets/currencylayer_icon.png" width="50px"/></td>
+     <td><a href="https://currencylayer.com">currencylayer</a> provides reliable exchange rates and currency conversions for your business up to 168 world currencies.</td>
+   </tr>
+</table>
+
 ## Index
 
 * [Installation](#installation)
@@ -9,7 +22,6 @@
     * [Lifetime](#lifetime)
     * [Cache type](#cache-type)
 * [Usage](#usage)
-* [Sponsors](#sponsors)
 
 ## Installation
 
@@ -140,17 +152,3 @@ $swap = $this->get('florianv_swap.swap');
 ```
 
 For more information about how to use it, please consult the [Swap documentation](https://github.com/florianv/swap).
-
-## Sponsors
-
-We are proudly supported by the following echange rate providers offering *free plans up to 1,000 requests per day*:
-
-<img src="https://s3.amazonaws.com/swap.assets/fixer_icon.png?v=2" height="20px" width="20px"/> **[Fixer](https://fixer.io)**
-
-Fixer is a simple and lightweight API for foreign exchange rates that supports up to 170 world currencies.
-They provide real-time rates and historical data, however, EUR is the only available base currency on the free plan.
-
-<img src="https://s3.amazonaws.com/swap.assets/currencylayer_icon.png" height="20px" width="20px"/> **[currencylayer](https://currencylayer.com)**
-
-Currencylayer provides reliable exchange rates and currency conversions for your business up to 168 world currencies.
-They provide real-time rates and historical data, however, USD is the only available base currency on the free plan.
