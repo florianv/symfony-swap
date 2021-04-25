@@ -11,6 +11,10 @@
      <td><img src="https://s3.amazonaws.com/swap.assets/currencylayer_icon.png" width="50px"/></td>
      <td><a href="https://currencylayer.com">currencylayer</a> provides reliable exchange rates and currency conversions for your business up to 168 world currencies.</td>
    </tr>
+   <tr>
+     <td><img src="https://exchangeratesapi.io/assets/images/api-logo.svg" width="50px"/></td>
+     <td><a href="https://exchangeratesapi.io">exchangeratesapi</a> provides reliable exchange rates and currency conversions for your business with over 15 data sources.</td>
+   </tr>   
 </table>
 
 ## Index
@@ -61,9 +65,10 @@ florianv_swap:
         currency_layer:                    # currencylayer
             access_key: secret
             enterprise: true
+        exchange_rates_api:                # exchangeratesapi.io
+            access_key: secret    
         webservicex: ~                     # WebserviceX
         cryptonator: ~                     # Cryptonator
-        exchange_rates_api: ~              # exchangeratesapi.io
         forge:                             # Forge
            api_key: secret    
         russian_central_bank: ~            # Russian Central Bank
