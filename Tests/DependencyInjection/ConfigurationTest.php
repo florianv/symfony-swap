@@ -125,7 +125,7 @@ class ConfigurationTest extends TestCase
             [['cryptonator' => null]],
             [['currency_data_feed' => ['api_key' => 'any']]],
             [['currency_layer' => ['access_key' => 'any', 'enterprise' => true]]],
-            [['exchange_rates_api' => null]],
+            [['exchange_rates_api' => ['access_key' => 'any', 'enterprise' => false]]],
             [['forge' => ['api_key' => 'any']]],
             [['open_exchange_rates' => ['app_id' => 'any']]],
             [['xignite' => ['token' => 'any']]],
