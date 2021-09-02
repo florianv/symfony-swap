@@ -115,6 +115,7 @@ class ConfigurationTest extends TestCase
     public function provideValidProvidersConfigs(): array
     {
         return [
+            [['abstract_api' => ['api_key' => 'any']]],
             [['central_bank_of_czech_republic' => null]],
             [['central_bank_of_republic_turkey' => []]],
             [['european_central_bank' => null]],
