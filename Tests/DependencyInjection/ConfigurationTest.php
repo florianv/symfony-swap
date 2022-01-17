@@ -135,7 +135,7 @@ class ConfigurationTest extends TestCase
             [['xchangeapi' => ['api-key' => 'any']]],
             [[
                 'array' => [
-                    'latestRateslatestRates' => [
+                    'latestRates' => [
                         'EUR/USD' => 1.1,
                         'EUR/GBP' => 1.5,
                     ],
