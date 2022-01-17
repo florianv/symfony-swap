@@ -135,7 +135,7 @@ class ConfigurationTest extends TestCase
             [['xchangeapi' => ['api-key' => 'any']]],
             [[
                 'array' => [
-                    'rates' => [
+                    'latestRateslatestRates' => [
                         'EUR/USD' => 1.1,
                         'EUR/GBP' => 1.5,
                     ],
@@ -151,7 +151,7 @@ class ConfigurationTest extends TestCase
             ]],
             [[
                 'array' => [
-                    'rates' => [
+                    'latestRates' => [
                         'EUR/USD' => 1.1,
                         'EUR/GBP' => 1.5,
                     ],
@@ -184,10 +184,10 @@ class ConfigurationTest extends TestCase
             [['array' => null]],
             [['array' => []]],
             [['array' => ['EUR/GBP' => 1.5]]],
-            [['array' => ['rates' => [['EUR/GBP' => 0]]]]],
-            [['array' => ['rates' => [['any' => 'any']]]]],
-            [['array' => ['rates' => [['2017-01-01' => 'any']]]]],
-            [['array' => ['rates' => [['2017-01-01' => ['any' => 'any']]]]]],
+            [['array' => ['latestRates' => [['EUR/GBP' => 0]]]]],
+            [['array' => ['latestRates' => [['any' => 'any']]]]],
+            [['array' => ['latestRates' => [['2017-01-01' => 'any']]]]],
+            [['array' => ['latestRates' => [['2017-01-01' => ['any' => 'any']]]]]],
         ];
     }
 
