@@ -184,7 +184,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('array')
                             ->children()
                                 ->integerNode('priority')->defaultValue(0)->end()
-                                ->variableNode('rates')
+                                ->variableNode('latestRates')
                                     ->treatFalseLike(null)
                                     ->treatTrueLike(null)
                                     ->isRequired()
