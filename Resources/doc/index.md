@@ -64,14 +64,13 @@ The complete list of all supported services is available here:
 # app/config/config.yml
 florianv_swap:
     providers:
-        fixer:
-            access_key: secret             # Fixer
-        currency_layer:                    # currencylayer
-            access_key: secret
-            enterprise: true
-        exchange_rates_api:                # exchangeratesapi.io
-            access_key: secret   
-        abstract_api:                      # abstractapi.com
+        apilayer_fixer:
+            api_key: secret                # Get your key here: https://apilayer.com/marketplace/fixer-api
+        apilayer_currency_data:            # Get your key here: https://apilayer.com/marketplace/currency_data-api
+          api_key: secret
+        apilayer_exchange_rates_data:      # Get your key here: https://apilayer.com/marketplace/exchangerates_data-api
+          api_key: secret   
+        abstract_api:                      # Get your key here: https://app.abstractapi.com/users/signup
             api_key: secret     
         webservicex: ~                     # WebserviceX
         cryptonator: ~                     # Cryptonator
@@ -109,12 +108,11 @@ In this example, Swap uses the [Fixer](http://fixer.io) service, and will fallba
 # app/config/config.yml
 florianv_swap:
     providers:
-        fixer:
-            access_key: secret
+        apilayer_fixer:
+            api_key: secret
             #priority: 0 (default)
-        currency_layer:                   
+        apilayer_currency_data:                   
             access_key: secret
-            enterprise: true
             priority: 1          
 ```
 
