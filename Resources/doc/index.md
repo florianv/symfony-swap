@@ -65,7 +65,7 @@ The complete list of all supported services is available here:
 florianv_swap:
     providers:
         apilayer_fixer:
-            api_key: secret                # Get your key here: https://apilayer.com/marketplace/fixer-api
+            api_key: secret                # Get your key here: https://fixer.io/
         apilayer_currency_data:            # Get your key here: https://apilayer.com/marketplace/currency_data-api
           api_key: secret
         apilayer_exchange_rates_data:      # Get your key here: https://apilayer.com/marketplace/exchangerates_data-api
