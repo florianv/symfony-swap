@@ -92,7 +92,7 @@ florianv_swap:
         xchangeapi:                        # xChangeApi.com
            api-key: secret    
         array:
-            rates:
+            latestRates:
                     'EUR/GBP': 1.5
                     'EUR/USD': 1.1
             historicalRates:
