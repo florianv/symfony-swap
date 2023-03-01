@@ -80,41 +80,34 @@ class FlorianvSwapExtension extends Extension
         $ttl = $config['ttl'];
         $id = 'florianv_swap.cache';
 
-        if (in_array($type, ['array', 'apcu', 'filesystem'], true)) {
-            switch ($type) {
-                case 'array':
-                    $class = 'Symfony\Component\Cache\Adapter\ArrayAdapter';
-                    $arguments = [$ttl];
-                    break;
-                case 'apcu':
-                    $class = 'Symfony\Component\Cache\Adapter\ApcuAdapter';
-                    $arguments = ['swap', $ttl];
-                    break;
-                case 'filesystem':
-                    $class = 'Symfony\Component\Cache\Adapter\FilesystemAdapter';
-                    $arguments = ['swap', $ttl];
-                    break;
-                default:
-                    throw new InvalidArgumentException("Unexpected swap cache type '$type'.");
-            }
-
-            if (!class_exists($class)) {
-                throw new InvalidArgumentException("Cache class $class does not exist.");
-            }
-
-            $definition = new Definition('Symfony\Component\Cache\Psr16Cache', [new Definition($class, $arguments)]);
-            $definition->setPublic(false);
-            $container->setDefinition($id, $definition);
-        } elseif ($container->hasDefinition($type)) {
-            $definition = $container->getDefinition($type);
-            if (!is_subclass_of($definition->getClass(), CacheInterface::class)) {
-                throw new InvalidArgumentException("Service '$type' does not implements " . CacheInterface::class);
-            }
-
-            $id = $type;
-        } else {
-            throw new InvalidArgumentException("Unexpected swap cache type '$type'.");
+        if (!in_array($type, ['array', 'apcu', 'filesystem'], true)) {
+            return;
         }
+
+        switch ($type) {
+            case 'array':
+                $class = 'Symfony\Component\Cache\Adapter\ArrayAdapter';
+                $arguments = [$ttl];
+                break;
+            case 'apcu':
+                $class = 'Symfony\Component\Cache\Adapter\ApcuAdapter';
+                $arguments = ['swap', $ttl];
+                break;
+            case 'filesystem':
+                $class = 'Symfony\Component\Cache\Adapter\FilesystemAdapter';
+                $arguments = ['swap', $ttl];
+                break;
+            default:
+                throw new InvalidArgumentException("Unexpected swap cache type '$type'.");
+        }
+
+        if (!class_exists($class)) {
+            throw new InvalidArgumentException("Cache class $class does not exist.");
+        }
+
+        $definition = new Definition('Symfony\Component\Cache\Psr16Cache', [new Definition($class, $arguments)]);
+        $definition->setPublic(false);
+        $container->setDefinition($id, $definition);
 
         $definition = $container->getDefinition('florianv_swap.builder');
         $definition
