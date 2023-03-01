@@ -11,6 +11,9 @@
 
 namespace Florianv\SwapBundle;
 
+use Florianv\SwapBundle\DependencyInjection\Compiler\AddCustomCacheServicePass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -20,4 +23,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class FlorianvSwapBundle extends Bundle
 {
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+        $container->addCompilerPass(new AddCustomCacheServicePass(), PassConfig::TYPE_BEFORE_REMOVING);
+    }
 }
