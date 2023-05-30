@@ -66,9 +66,9 @@ florianv_swap:
     providers:
         apilayer_fixer:
             api_key: secret                # Get your key here: https://fixer.io/
-        apilayer_currency_data:            # Get your key here: https://apilayer.com/marketplace/currency_data-api
+        apilayer_currency_data:            # Get your key here: https://currencylayer.com
           api_key: secret
-        apilayer_exchange_rates_data:      # Get your key here: https://apilayer.com/marketplace/exchangerates_data-api
+        apilayer_exchange_rates_data:      # Get your key here: https://exchangeratesapi.io
           api_key: secret   
         abstract_api:                      # Get your key here: https://app.abstractapi.com/users/signup
             api_key: secret     
