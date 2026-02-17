@@ -29,9 +29,9 @@ class FlorianvSwapExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $config = $this->processConfiguration(new Configuration(), $config);
+        $config = $this->processConfiguration(new Configuration(), $configs);
 
         $this->configureBuilderService($container);
         $this->configureSwapService($container);
