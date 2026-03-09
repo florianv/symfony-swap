@@ -12,6 +12,7 @@
 namespace Florianv\SwapBundle\Tests\DependencyInjection;
 
 use Florianv\SwapBundle\DependencyInjection\Configuration;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Config\Definition\Processor;
@@ -45,11 +46,7 @@ class ConfigurationTest extends TestCase
         $this->processor = null;
     }
 
-    /**
-     * @param array $providers
-     *
-     * @dataProvider provideValidProvidersConfigs
-     */
+    #[DataProvider('provideValidProvidersConfigs')]
     public function testValidProvidersConfig(array $providers): void
     {
         $configuration = $this->processor->processConfiguration($this->configuration, [
@@ -62,11 +59,7 @@ class ConfigurationTest extends TestCase
 
     }
 
-    /**
-     * @param array $providers
-     *
-     * @dataProvider provideInvalidProvidersConfigs
-     */
+    #[DataProvider('provideInvalidProvidersConfigs')]
     public function testInvalidProvidersConfig(array $providers): void
     {
         $this->expectException(Exception::class);
@@ -78,11 +71,7 @@ class ConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @param array $cache
-     *
-     * @dataProvider provideValidCacheConfigs
-     */
+    #[DataProvider('provideValidCacheConfigs')]
     public function testValidCacheConfig(array $cache): void
     {
         $configuration = $this->processor->processConfiguration($this->configuration, [
@@ -95,11 +84,7 @@ class ConfigurationTest extends TestCase
         self::assertTrue(is_array($configuration));
     }
 
-    /**
-     * @param array $cache
-     *
-     * @dataProvider provideInvalidCacheConfigs
-     */
+    #[DataProvider('provideInvalidCacheConfigs')]
     public function testInvalidCacheConfig(array $cache): void
     {
         $this->expectException(Exception::class);
@@ -112,7 +97,7 @@ class ConfigurationTest extends TestCase
         ]);
     }
 
-    public function provideValidProvidersConfigs(): array
+    public static function provideValidProvidersConfigs(): array
     {
         return [
             [['abstract_api' => ['api_key' => 'any']]],
@@ -160,7 +145,7 @@ class ConfigurationTest extends TestCase
         ];
     }
 
-    public function provideInvalidProvidersConfigs(): array
+    public static function provideInvalidProvidersConfigs(): array
     {
         return [
             [[]],
@@ -191,7 +176,7 @@ class ConfigurationTest extends TestCase
         ];
     }
 
-    public function provideValidCacheConfigs(): array
+    public static function provideValidCacheConfigs(): array
     {
         return [
             [[]],
@@ -199,7 +184,7 @@ class ConfigurationTest extends TestCase
         ];
     }
 
-    public function provideInvalidCacheConfigs(): array
+    public static function provideInvalidCacheConfigs(): array
     {
         return [
             [['any' => 'any']],

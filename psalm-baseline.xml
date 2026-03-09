@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.15.1@28dc127af1b5aecd52314f6f645bafc10d0e11f9">
+  <file src="DependencyInjection/Configuration.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[Configuration]]></code>
+    </ClassMustBeFinal>
+    <MissingClosureParamType>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+    </MissingClosureParamType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function getConfigTreeBuilder(): TreeBuilder]]></code>
+    </MissingOverrideAttribute>
+    <MissingReturnType>
+      <code><![CDATA[createSimpleProviderNode]]></code>
+    </MissingReturnType>
+    <MixedArgument>
+      <code><![CDATA[$config['providers']]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('central_bank_of_czech_republic')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('central_bank_of_republic_turkey')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('cryptonator')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('european_central_bank')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('national_bank_of_romania')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('russian_central_bank')]]></code>
+      <code><![CDATA[$this->createSimpleProviderNode('webservicex')]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$key]]></code>
+      <code><![CDATA[$key]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <UnusedMethodCall>
+      <code><![CDATA[end]]></code>
+      <code><![CDATA[end]]></code>
+    </UnusedMethodCall>
+  </file>
+  <file src="DependencyInjection/FlorianvSwapExtension.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FlorianvSwapExtension]]></code>
+    </ClassMustBeFinal>
+    <InvalidCast>
+      <code><![CDATA[$type]]></code>
+    </InvalidCast>
+    <MissingClosureReturnType>
+      <code><![CDATA[function($a , $b) {]]></code>
+    </MissingClosureReturnType>
+    <MissingOverrideAttribute>
+      <code><![CDATA[public function load(array $configs, ContainerBuilder $container): void]]></code>
+    </MissingOverrideAttribute>
+    <MissingReturnType>
+      <code><![CDATA[configureBuilderService]]></code>
+      <code><![CDATA[configureCacheService]]></code>
+      <code><![CDATA[configureProviders]]></code>
+      <code><![CDATA[configureSwapService]]></code>
+    </MissingReturnType>
+    <MixedArgument>
+      <code><![CDATA[$config['cache']]]></code>
+      <code><![CDATA[$config['providers']]]></code>
+      <code><![CDATA[$type]]></code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[function($a , $b) {
+            return $b['priority'] - $a['priority'];
+        }]]></code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess>
+      <code><![CDATA[$a['priority']]]></code>
+      <code><![CDATA[$b['priority']]]></code>
+      <code><![CDATA[$config['priority']]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$ttl]]></code>
+      <code><![CDATA[$type]]></code>
+    </MixedAssignment>
+    <MixedOperand>
+      <code><![CDATA[$b['priority']]]></code>
+    </MixedOperand>
+    <PossiblyNullArgument>
+      <code><![CDATA[$definition->getClass()]]></code>
+    </PossiblyNullArgument>
+    <UnusedClass>
+      <code><![CDATA[FlorianvSwapExtension]]></code>
+    </UnusedClass>
+  </file>
+  <file src="FlorianvSwapBundle.php">
+    <ClassMustBeFinal>
+      <code><![CDATA[FlorianvSwapBundle]]></code>
+    </ClassMustBeFinal>
+    <UnusedClass>
+      <code><![CDATA[FlorianvSwapBundle]]></code>
+    </UnusedClass>
+  </file>
+</files>
