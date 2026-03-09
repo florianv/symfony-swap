@@ -1,6 +1,7 @@
 # <img src="https://s3.amazonaws.com/swap.assets/swap_logo.png" height="30px" width="30px"/> Symfony Swap
 
-[![Build status](http://img.shields.io/travis/florianv/symfony-swap.svg?style=flat-square)](https://travis-ci.org/florianv/symfony-swap)
+[![Tests](https://github.com/florianv/symfony-swap/actions/workflows/tests.yml/badge.svg)](https://github.com/florianv/symfony-swap/actions/workflows/tests.yml)
+[![Psalm](https://github.com/florianv/symfony-swap/actions/workflows/psalm.yml/badge.svg)](https://github.com/florianv/symfony-swap/actions/workflows/psalm.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/swap-bundle)
 [![Version](http://img.shields.io/packagist/v/florianv/swap-bundle.svg?style=flat-square)](https://packagist.org/packages/florianv/swap-bundle)
 
