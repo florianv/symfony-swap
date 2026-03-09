@@ -12,6 +12,7 @@
 namespace Florianv\SwapBundle\Tests\DependencyInjection;
 
 use Florianv\SwapBundle\DependencyInjection\FlorianvSwapExtension;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Swap\Builder;
 use Swap\Swap;
@@ -73,25 +74,19 @@ class FlorianvSwapExtensionTest extends TestCase
         $this->buildContainer([], []);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testFixerProvider(): void
     {
         $this->buildContainer(['fixer' => ['access_key' => 'test']]);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testForgeProvider(): void
     {
         $this->buildContainer(['forge' => ['api_key' => 'test']]);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testXchangeApiProvider(): void
     {
         $this->buildContainer(['xchangeapi' => ['api-key' => 'test']]);
