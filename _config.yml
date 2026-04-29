@@ -1,0 +1,9 @@
+title: "Symfony Swap: drop-in Symfony bundle for currency conversion"
+description: Drop-in Symfony bundle for currency conversion. Multi-provider exchange rates with fallback, caching, and Symfony Cache integration. Maintained since 2014.
+theme: jekyll-theme-cayman
+remote_theme: pages-themes/cayman@v0.2.0
+show_downloads: false
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag

@@ -1,7 +1,0 @@
-{
-  "name": "FlorianvSwapBundle",
-  "tagline": "Integrates the Swap library with Symfony2",
-  "body": "# FlorianvSwapBundle\r\n\r\n[![Build status][travis-image]][travis-url]\r\n[![Version][version-image]][version-url]\r\n[![Downloads][downloads-image]][downloads-url]\r\n\r\n> Integrates the [Swap](https://github.com/florianv/swap) library with Symfony\r\n\r\n## Documentation\r\n\r\n[Read the Documentation for master](https://github.com/florianv/FlorianvSwapBundle/blob/master/Resources/doc/index.md)\r\n\r\nAll the installation instructions are located in the documentation.\r\n\r\n## License\r\n\r\nThis bundle is under the MIT license. See the complete license in the bundle:\r\n\r\n```\r\nResources/meta/LICENSE\r\n```\r\n\r\n[travis-url]: https://travis-ci.org/florianv/FlorianvSwapBundle\r\n[travis-image]: http://img.shields.io/travis/florianv/FlorianvSwapBundle.svg\r\n\r\n[version-url]: https://packagist.org/packages/florianv/swap-bundle\r\n[version-image]: http://img.shields.io/packagist/v/florianv/swap-bundle.svg\r\n\r\n[downloads-url]: https://packagist.org/packages/florianv/swap-bundle\r\n[downloads-image]: https://img.shields.io/packagist/dt/florianv/swap-bundle.svg\r\n",
-  "google": "",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
