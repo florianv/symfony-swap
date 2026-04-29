@@ -1,17 +1,18 @@
 {
     "name": "florianv/swap-bundle",
     "type": "symfony-bundle",
-    "description": "Integrates the Swap library with Symfony",
+    "description": "Drop-in Symfony bundle for currency conversion: configurable services, multi-provider exchange rates with fallback and caching.",
     "keywords": [
-        "money",
-        "currency",
-        "conversion",
-        "rate",
-        "exchange",
+        "php",
         "symfony",
-        "bundle"
+        "symfony-bundle",
+        "currency-conversion",
+        "exchange-rates",
+        "exchange-rate-api",
+        "swap",
+        "money"
     ],
-    "homepage": "https://github.com/florianv/FlorianvSwapBundle",
+    "homepage": "https://github.com/florianv/symfony-swap",
     "license": "MIT",
     "authors": [
         {
