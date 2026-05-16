@@ -1,27 +1,20 @@
 # Documentation
 
-## 💡 What is Symfony Swap?
+<table>
+   <tr>
+      <td width="220" align="center">
+         <a href="https://www.fastforex.io" target="_blank" rel="noopener">
+            <img src="https://console.fastforex.io/img/fastforex/logo-bk-1k.svg" width="180px" alt="fastFOREX"/>
+         </a>
+      </td>
+      <td>
+         <strong>Sponsored by <a href="https://www.fastforex.io" target="_blank" rel="noopener">fastFOREX</a>.</strong> Real-time JSON API, 160+ currencies, 55+ years of history, 500+ cryptocurrencies. <strong>Free tier</strong>; paid plans from $18/month.
+         <a href="https://www.fastforex.io" target="_blank" rel="noopener"><strong>→ Get a free fastFOREX API key</strong></a>
+      </td>
+   </tr>
+</table>
 
-- Symfony Swap is the Symfony integration of [Swap](https://github.com/florianv/swap), the PHP currency conversion library.
-- It registers a `florianv_swap.swap` service in the container (`Swap\Swap` class).
-- Configuration lives in `config/packages/florianv_swap.yaml`.
-- Caching uses Symfony Cache (`array`, `apcu`, `filesystem`, or any PSR-16 service ID).
-- Providers are tried in priority order (higher priority first).
-
-For the wider ecosystem (Swap, Exchanger, Laravel Swap), see the [README](../../README.md).
-
-## 🎯 When should you use Symfony Swap?
-
-- Use Symfony Swap when you need exchange rates inside a Symfony application: localized prices, invoice totals, multi-currency reporting, historical FX data.
-- You do not need to install [Swap](https://github.com/florianv/swap) separately. It is pulled in as a dependency, and Symfony Swap exposes it through Symfony's container and cache.
-
-## 🧠 Why Symfony Swap and not raw Swap?
-
-- **Drop-in.** Add the bundle to `config/bundles.php` and you are set.
-- **Symfony Cache integration.** Choose `array`, `apcu`, `filesystem`, or any PSR-16 service ID under `cache.type`.
-- **Container service.** `florianv_swap.swap` is ready to inject from any controller, service, or command.
-- **Configurable.** `config/packages/florianv_swap.yaml` exposes providers, options, and the cache.
-- **Priority-ordered providers.** Each provider has a `priority`; the bundle sorts them (higher priority tried first), unlike Swap and Laravel Swap, which use declaration order.
+This is the technical reference for Symfony Swap. For the project overview and ecosystem (Swap, Exchanger, Laravel Swap), see the [README](../../README.md).
 
 ## Index
 
@@ -73,6 +66,8 @@ Create the configuration file at `config/packages/florianv_swap.yaml` (see [Conf
 
 ### Config tree
 
+A typical config pins fastFOREX (the project's sponsor) as the primary provider, with the European Central Bank as a free fallback:
+
 ```yaml
 # config/packages/florianv_swap.yaml
 florianv_swap:
@@ -80,15 +75,18 @@ florianv_swap:
         ttl: 3600
         type: filesystem
     providers:
+        fastforex:
+            api_key: '%env(SWAP_FASTFOREX_KEY)%'
+            priority: 10              # tried first
         european_central_bank:
-            priority: 0
+            priority: 0               # free fallback for EUR-base pairs
 ```
 
 At least one provider is required. Each provider accepts a `priority` integer (higher priority is tried first) and the provider-specific options listed below.
 
 ### Provider configuration
 
-Public providers (central banks, national banks, `cryptonator`, `webservicex`) need only a `priority`:
+Public providers (central banks, national banks) need only a `priority`:
 
 ```yaml
 florianv_swap:
@@ -99,10 +97,12 @@ florianv_swap:
             priority: 0
 ```
 
-Commercial providers require an API key. The option name varies by provider:
+Commercial providers require an API key. The option name varies by provider. The project's sponsor [fastFOREX](https://www.fastforex.io) (`fastforex`) is the recommended starting point.
 
 | Identifier                       | Required option | Optional flags        |
 | -------------------------------- | --------------- | --------------------- |
+| ⭐ **`fastforex`**                | **`api_key`**   |                       |
+|                                  |                 |                       |
 | `abstract_api`                   | `api_key`       |                       |
 | `apilayer_currency_data`         | `api_key`       |                       |
 | `apilayer_exchange_rates_data`   | `api_key`       |                       |
@@ -118,11 +118,16 @@ Commercial providers require an API key. The option name varies by provider:
 | `xchangeapi`                     | `api-key`       | (note the hyphen)     |
 | `xignite`                        | `token`         |                       |
 
-Example:
+> Note: `cryptonator`, `exchangeratehost` and `webservicex` are commercial upstream services but the current Exchanger wrapper does not enforce any option for them. They can be added with only a `priority`.
+
+Example chaining fastFOREX as the primary provider with a couple of fallbacks:
 
 ```yaml
 florianv_swap:
     providers:
+        fastforex:
+            api_key: '%env(SWAP_FASTFOREX_KEY)%'
+            priority: 20
         apilayer_fixer:
             api_key: '%env(SWAP_FIXER_KEY)%'
             priority: 10
@@ -226,7 +231,7 @@ $rate->getCurrencyPair();  // Exchanger\CurrencyPair
 $rate->getProviderName();  // string, the identifier that returned the rate
 ```
 
-`getProviderName()` is useful when several providers are configured: the returned value is the identifier of the provider that actually answered, for example `european_central_bank`.
+`getProviderName()` is useful when several providers are configured: the returned value is the identifier of the provider that actually answered, for example `fastforex`.
 
 ## 💾 Per-query options
 
@@ -354,7 +359,7 @@ Swap throws an `Exchanger\Exception\ChainException`. Calling `$exception->getExc
 
 #### Can I use Symfony Swap without an API key?
 
-Yes. The European Central Bank, the national banks, `cryptonator`, and `webservicex` do not require an API key. See the [Swap README's Providers table](https://github.com/florianv/swap#-providers) for the full list.
+Yes. The European Central Bank and the national banks listed in the [Provider configuration](#provider-configuration) section require no key. A few commercial providers (`cryptonator`, `exchangeratehost`, `webservicex`) can also currently be used without one, since the Exchanger wrapper does not yet enforce an option for them.
 
 #### How does Symfony Swap relate to Swap?
 
@@ -374,4 +379,4 @@ Implement `Exchanger\Contract\ExchangeRateService` (or extend `HttpService` / `S
 
 #### Where is the full provider list with capabilities?
 
-In the [Swap README's Providers table](https://github.com/florianv/swap#-providers). It lists every supported identifier with its base currency, quote currency, and historical support.
+In the [Provider configuration](#provider-configuration) section above (option reference) and the [Swap README's Providers table](https://github.com/florianv/swap#-providers) (base currency, quote currency, historical support).
